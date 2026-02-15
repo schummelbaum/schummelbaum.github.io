@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VoiceNote - The Future of Coding is Spoken</title>
+<link href="VoiceNote.ico" rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#FF3B30",
+                        "primary-hover": "#D93026",
+                        "background-light": "#F3F4F6",
+                        "background-dark": "#121212",
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1E1E1E",
+                        "surface-darker": "#181818",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#333333",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        'xl': "0.75rem",
+                        '2xl': "1rem",
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(255, 59, 48, 0.3)',
+                        'glow-sm': '0 0 10px rgba(255, 59, 48, 0.2)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .waveform-bar {
+            animation: waveform 1s ease-in-out infinite;
+        }
+        @keyframes waveform {
+            0%, 100% { height: 20%; }
+            50% { height: 100%; }
+        }
+        .waveform-bar:nth-child(odd) { animation-duration: 0.8s; }
+        .waveform-bar:nth-child(even) { animation-duration: 1.2s; }
+        .glass-panel {
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .light .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 300,
+            'GRAD' 0,
+            'opsz' 24
+        }
+        .hero-grid-pattern {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+            linear-gradient(rgba(100, 116, 139, 0.18) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(100, 116, 139, 0.18) 1px, transparent 1px);
+            background-size: 34px 34px;
+            -webkit-mask-image: radial-gradient(circle at 50% 20%, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.35) 68%, transparent 100%);
+            mask-image: radial-gradient(circle at 50% 20%, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.35) 68%, transparent 100%);
+        }
+        .dark .hero-grid-pattern {
+            background-image:
+            linear-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 transition-colors duration-300">
+<nav class="fixed top-0 w-full z-50 border-b border-border-light dark:border-border-dark glass-panel">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16 items-center">
+<div class="flex items-center gap-2">
+<img alt="VoiceNote logo" class="w-8 h-8 rounded-lg border border-gray-600 shadow-glow-sm object-cover" src="VoiceNote.ico"/>
+<span class="font-bold text-xl tracking-tight">VoiceNote</span>
+</div>
+<div class="hidden md:flex space-x-8 items-center">
+<a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#features">Features</a>
+<a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#workflow">Workflow</a>
+<a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#faq">FAQ</a>
+</div>
+<div class="md:hidden flex items-center">
+<button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<section class="pt-32 pb-20 overflow-hidden relative">
+<div class="hero-grid-pattern"></div>
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary opacity-5 dark:opacity-10 blur-[120px] rounded-full -z-10 pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6">
+<span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
+                Just Released
+            </div>
+<h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">
+                The Future of Coding<br/>is <span class="text-primary relative inline-block">
+                    Spoken
+                    <svg class="absolute -bottom-2 w-full h-3 text-primary opacity-40" preserveAspectRatio="none" viewBox="0 0 100 10">
+<path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="4"></path>
+</svg>
+</span>
+</h1>
+<p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Transform your voice into code, comments, and documentation instantly. Designed for developers, integrated seamlessly into Windows 11.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+<a class="bg-primary hover:bg-primary-hover text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-glow hover:shadow-lg flex items-center gap-2 group" href="https://github.com/schummelbaum/VoiceNote-builds/releases/latest" id="download-windows-btn" rel="noopener noreferrer">
+<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" height="1em" stroke="currentColor" stroke-width="0" viewBox="0 0 448 512" width="1em" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6L448 32v214.9H203.8V65.7z"></path>
+</svg>
+                    Download for Windows
+                </a>
+<a class="border border-dashed border-gray-400 bg-transparent hover:bg-gray-50/10 text-gray-400 px-8 py-3.5 rounded-xl font-semibold transition-all flex items-center gap-2 opacity-60 hover:opacity-100" href="#demo">
+<i class="fa-brands fa-apple text-lg"></i>
+                    macOS — Soon
+                </a>
+</div>
+<div class="relative max-w-4xl mx-auto mt-12 group">
+<div class="relative bg-surface-darker rounded-xl border border-border-dark shadow-2xl overflow-hidden transform transition-transform duration-500 hover:scale-[1.01]">
+<div class="h-10 bg-[#252525] border-b border-[#333] flex items-center justify-between px-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">mic</span>
+<span class="text-xs font-medium text-gray-400">VoiceNote</span>
+</div>
+<div class="flex gap-4">
+<div class="w-3 h-3 rounded-full bg-gray-600 hover:bg-gray-500"></div>
+<div class="w-3 h-3 rounded-full bg-gray-600 hover:bg-gray-500"></div>
+<div class="w-3 h-3 rounded-full bg-primary hover:bg-red-600"></div>
+</div>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 h-[500px]">
+<div class="md:col-span-4 border-r border-border-dark pr-4 flex flex-col h-full">
+<div class="flex items-center gap-2 mb-6 text-gray-400">
+<span class="material-symbols-outlined">history</span>
+<span class="text-sm font-semibold uppercase tracking-wider">History</span>
+</div>
+<div class="space-y-3 overflow-y-auto pr-2 custom-scrollbar">
+<div class="bg-surface-dark p-3 rounded-lg border border-border-dark hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex justify-between mb-1">
+<span class="text-xs text-gray-500">Just now</span>
+<span class="material-symbols-outlined text-[10px] text-gray-600 group-hover:text-primary">content_copy</span>
+</div>
+<p class="text-sm text-gray-300 line-clamp-2">Okay, can you give me the whole adapted prompt and then after...</p>
+</div>
+<div class="bg-surface-dark p-3 rounded-lg border border-border-dark hover:border-primary/50 transition-colors cursor-pointer group opacity-70 hover:opacity-100">
+<div class="flex justify-between mb-1">
+<span class="text-xs text-gray-500">2 mins ago</span>
+<span class="material-symbols-outlined text-[10px] text-gray-600 group-hover:text-primary">content_copy</span>
+</div>
+<p class="text-sm text-gray-300 line-clamp-2">I got a few questions. I want to, first of all, it looks very good...</p>
+</div>
+<div class="bg-surface-dark p-3 rounded-lg border border-border-dark hover:border-primary/50 transition-colors cursor-pointer group opacity-70 hover:opacity-100">
+<div class="flex justify-between mb-1">
+<span class="text-xs text-gray-500">5 mins ago</span>
+<span class="material-symbols-outlined text-[10px] text-gray-600 group-hover:text-primary">content_copy</span>
+</div>
+<p class="text-sm text-gray-300 line-clamp-2">Refactor this function to be asynchronous and handle error states.</p>
+</div>
+</div>
+</div>
+<div class="md:col-span-8 flex flex-col relative">
+<div class="absolute top-0 right-0">
+<button class="p-2 hover:bg-surface-dark rounded-lg transition-colors text-gray-400">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center">
+<div class="relative w-24 h-24 mb-8">
+<div class="absolute inset-0 bg-primary opacity-20 rounded-full animate-ping"></div>
+<div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full border border-gray-700 flex items-center justify-center shadow-lg z-10">
+<span class="material-symbols-outlined text-primary text-4xl">mic</span>
+</div>
+</div>
+<p class="text-gray-400 text-sm font-medium mb-8">Listening...</p>
+<div class="flex items-end justify-center h-16 gap-1 w-full max-w-xs mb-8">
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-8 opacity-60"></div>
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-12 opacity-80"></div>
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-6 opacity-50"></div>
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-16"></div>
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-10 opacity-70"></div>
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-14 opacity-90"></div>
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-8 opacity-60"></div>
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-4 opacity-40"></div>
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-12 opacity-80"></div>
+<div class="w-1.5 bg-primary rounded-full waveform-bar h-6 opacity-50"></div>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+<span class="text-sm font-mono text-gray-300">Whisper Large v3</span>
+</div>
+<div class="flex gap-2 text-xs font-mono text-gray-500">
+<span class="px-2 py-1 bg-surface-darker rounded border border-border-dark">Ctrl</span>
+<span class="px-2 py-1 bg-surface-darker rounded border border-border-dark">Space</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute -right-12 top-20 bg-surface-dark dark:bg-surface-darker p-4 rounded-xl shadow-2xl border border-border-dark hidden lg:block transform rotate-3">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+</div>
+<span class="text-sm font-bold text-white">Instant Insert</span>
+</div>
+<div class="w-48 h-2 bg-gray-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-3/4"></div>
+</div>
+</div>
+<div class="absolute -left-12 bottom-32 bg-surface-dark dark:bg-surface-darker p-4 rounded-xl shadow-2xl border border-border-dark hidden lg:block transform -rotate-2">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">keyboard_command_key</span>
+</div>
+<div>
+<span class="block text-xs text-gray-400">Shortcut</span>
+<span class="text-sm font-bold text-white">Ctrl + Space</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-surface-light dark:bg-[#151515]" id="features">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Designed for Speed</h2>
+<p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">Build faster by speaking your thoughts. Our advanced AI engine understands context and syntax.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-bl-[100px] pointer-events-none transition-opacity group-hover:opacity-10"></div>
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-2xl">keyboard</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Global Shortcut</h3>
+<p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Summon VoiceNote from anywhere in Windows 11 with a simple customizable hotkey. Never break your flow.
+                    </p>
+</div>
+<div class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-bl-[100px] pointer-events-none transition-opacity group-hover:opacity-10"></div>
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-2xl">graphic_eq</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Live Waveform</h3>
+<p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Real-time visual feedback ensures you know exactly when you're being heard. Precision recording at its finest.
+                    </p>
+</div>
+<div class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-bl-[100px] pointer-events-none transition-opacity group-hover:opacity-10"></div>
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-2xl">flash_on</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Instant Insert</h3>
+<p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Your transcribed text is pasted directly into your active window. IDEs, Slack, Docs - it works everywhere instantly.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 relative overflow-hidden" id="workflow">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">Three steps. Zero friction.</h2>
+<p class="text-gray-600 dark:text-gray-400 text-lg">From thought to text in under a second.</p>
+</div>
+<div class="relative max-w-5xl mx-auto">
+<div class="hidden md:block absolute top-[28px] left-20 right-20 h-[1px] bg-border-dark opacity-40 z-0"></div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-2xl bg-surface-darker border border-primary/20 flex items-center justify-center mb-8 relative z-20 shadow-lg">
+<span class="material-symbols-outlined text-xl text-primary">keyboard</span>
+</div>
+<span class="text-xs font-bold text-primary mb-2 uppercase tracking-widest">01</span>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Press Ctrl + Space</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed px-4">A compact flyout appears instantly at your cursor. No app switching needed.</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-2xl bg-surface-darker border border-primary/20 flex items-center justify-center mb-8 relative z-20 shadow-lg">
+<span class="material-symbols-outlined text-xl text-primary">mic</span>
+</div>
+<span class="text-xs font-bold text-primary mb-2 uppercase tracking-widest">02</span>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Speak naturally</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed px-4">See live waveform feedback and a recording timer. Speak as long as you need.</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-2xl bg-surface-darker border border-primary/20 flex items-center justify-center mb-8 relative z-20 shadow-lg">
+<span class="material-symbols-outlined text-xl text-primary">check</span>
+</div>
+<span class="text-xs font-bold text-primary mb-2 uppercase tracking-widest">03</span>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Hit Apply</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed px-4">Your transcription is inserted right where your cursor was. That's it.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-surface-light dark:bg-[#151515]" id="faq">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Frequently Asked</h2>
+</div>
+<div class="space-y-4">
+<details class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors" open>
+<summary class="flex justify-between items-center font-semibold text-lg list-none text-gray-900 dark:text-gray-100">
+                        Is my voice data private?
+                        <span class="material-symbols-outlined transform group-open:rotate-180 transition-transform text-gray-400">expand_more</span>
+</summary>
+<p class="text-gray-600 dark:text-gray-400 mt-4 leading-relaxed">
+                        Yes. You can choose to use local processing with Whisper models running entirely on your machine. No audio ever leaves your computer.
+                    </p>
+</details>
+<details class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors">
+<summary class="flex justify-between items-center font-semibold text-lg list-none text-gray-900 dark:text-gray-100">
+                        What apps does VoiceNote work in?
+                        <span class="material-symbols-outlined transform group-open:rotate-180 transition-transform text-gray-400">expand_more</span>
+</summary>
+<p class="text-gray-600 dark:text-gray-400 mt-4 leading-relaxed">
+                        VoiceNote works in all applications where you can type, including IDEs, terminals, browsers, chat apps, docs, and forms.
+                    </p>
+</details>
+<details class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors">
+<summary class="flex justify-between items-center font-semibold text-lg list-none text-gray-900 dark:text-gray-100">
+                        What languages are supported?
+                        <span class="material-symbols-outlined transform group-open:rotate-180 transition-transform text-gray-400">expand_more</span>
+</summary>
+<p class="text-gray-600 dark:text-gray-400 mt-4 leading-relaxed">
+                        We support over 50 languages including English, Spanish, French, German, Chinese, and Japanese, with auto-detection capabilities.
+                    </p>
+</details>
+</div>
+</div>
+</section>
+<footer class="bg-background-light dark:bg-background-dark border-t border-border-light dark:border-border-dark py-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<img alt="VoiceNote logo" class="w-6 h-6 rounded object-cover" src="VoiceNote.ico"/>
+<span class="font-bold text-gray-900 dark:text-white">VoiceNote</span>
+</div>
+<div class="flex gap-8 text-sm text-gray-500 dark:text-gray-400">
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms</a>
+<a class="hover:text-primary transition-colors" href="#">Twitter</a>
+<a class="hover:text-primary transition-colors" href="#">GitHub</a>
+</div>
+<div class="text-xs text-gray-400 dark:text-gray-600">
+                Â© 2023 VoiceNote App. All rights reserved.
+            </div>
+</div>
+</footer>
+<script>
+        // Simple script to toggle dark mode for preview purposes if needed, 
+        // though Tailwind's 'class' strategy relies on a parent class.
+        // Assuming the environment this runs in allows toggling via system pref or a button not shown.
+        // For this demo, we force dark mode on the html tag to match the prompt's main vibe, 
+        // but the classes support both.
+        document.documentElement.classList.add('dark');
+
+        const downloadBtn = document.getElementById('download-windows-btn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', async (event) => {
+                event.preventDefault();
+                const fallbackUrl = 'https://github.com/schummelbaum/VoiceNote-builds/releases/latest';
+                try {
+                    const response = await fetch('https://api.github.com/repos/schummelbaum/VoiceNote-builds/releases/latest', {
+                        headers: { 'Accept': 'application/vnd.github+json' },
+                    });
+                    if (!response.ok) throw new Error('Could not load latest release.');
+                    const release = await response.json();
+                    const assets = Array.isArray(release.assets) ? release.assets : [];
+                    const preferredAsset =
+                        assets.find((asset) => /\.exe$/i.test(asset.name)) ||
+                        assets.find((asset) => /\.msi$/i.test(asset.name)) ||
+                        assets.find((asset) => !/\.sha256$/i.test(asset.name));
+                    const targetUrl = preferredAsset?.browser_download_url || release.html_url || fallbackUrl;
+                    window.location.href = targetUrl;
+                } catch (error) {
+                    window.location.href = fallbackUrl;
+                }
+            });
+        }
+    </script>
+</body></html>
+
