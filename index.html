@@ -1242,11 +1242,12 @@
                     </svg>
                     Download for Windows
                 </a>
-                <a class="border border-dashed border-gray-400 bg-transparent hover:bg-gray-50/10 text-gray-400 px-8 py-3.5 rounded-xl font-semibold transition-all flex items-center gap-2 opacity-60 hover:opacity-100"
-                    href="#demo">
+                <button aria-disabled="true"
+                    class="border border-dashed border-gray-400 bg-transparent hover:bg-gray-50/10 text-gray-400 px-8 py-3.5 rounded-xl font-semibold transition-all flex items-center gap-2 opacity-60 hover:opacity-100 pointer-events-none"
+                    tabindex="-1" type="button">
                     <i class="fa-brands fa-apple text-lg"></i>
                     macOS — Soon
-                </a>
+                </button>
             </div>
             <div class="vn-preview-shell max-w-7xl mx-auto mt-12 scroll-mt-32" id="preview">
                 <div class="vn-preview-wrapper">
@@ -1429,8 +1430,8 @@
                                                         </button>
                                                     </span>
                                                 </div>
-                                                <p class="vn-history-text">Please draft a follow-up email to the client
-                                                    and thank them for today's call.</p>
+                                                <p class="vn-history-text">Hey Josh, thanks for your email today. I
+                                                    reviewed the proposal and will send feedback tomorrow.</p>
                                             </article>
                                             <article class="vn-history-card">
                                                 <div class="vn-history-card-top">
@@ -1453,8 +1454,8 @@
                                                         </button>
                                                     </span>
                                                 </div>
-                                                <p class="vn-history-text">Summarize today's meeting in five bullet
-                                                    points with clear action items.</p>
+                                                <p class="vn-history-text">Meeting notes: launch is on track, design
+                                                    review moved to Thursday, and Sarah will share final assets.</p>
                                             </article>
                                             <article class="vn-history-card">
                                                 <div class="vn-history-card-top">
@@ -1477,8 +1478,8 @@
                                                         </button>
                                                     </span>
                                                 </div>
-                                                <p class="vn-history-text">Write a short status update for the team and
-                                                    mention the deadline moved to Friday.</p>
+                                                <p class="vn-history-text">Hi team, quick update: QA passed, release is
+                                                    scheduled for Friday, and docs are almost finished.</p>
                                             </article>
                                         </div>
                                     </section>
@@ -1655,7 +1656,7 @@
                             <span class="material-symbols-outlined text-xl text-primary">keyboard</span>
                         </div>
                         <span class="text-xs font-bold text-primary mb-2 uppercase tracking-widest">01</span>
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Press Ctrl + Space</h3>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Press Hotkey</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed px-4">A compact flyout
                             appears instantly at your cursor, so no app switching is needed.</p>
                     </div>
@@ -1754,10 +1755,9 @@
                 <img alt="VoiceNote logo" class="w-6 h-6 rounded object-cover" src="VoiceNote.ico" />
                 <span class="font-bold text-gray-900 dark:text-white">VoiceNote</span>
             </div>
-            <div class="flex gap-8 text-sm text-gray-500 dark:text-gray-400 justify-self-center">
+            <div class="flex w-full justify-center gap-8 text-sm text-gray-500 dark:text-gray-400 justify-self-center">
                 <a class="hover:text-primary transition-colors" href="#">Privacy</a>
                 <a class="hover:text-primary transition-colors" href="#">Terms</a>
-                <a class="hover:text-primary transition-colors" href="#">Twitter</a>
             </div>
             <div class="text-xs text-gray-400 dark:text-gray-600 justify-self-center md:justify-self-end">
                 © 2026 VoiceNote App. All rights reserved.
