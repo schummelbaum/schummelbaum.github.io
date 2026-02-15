@@ -105,12 +105,57 @@
             background-size: 34px 34px;
             -webkit-mask-image: radial-gradient(circle at 50% 20%, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.35) 68%, transparent 100%);
             mask-image: radial-gradient(circle at 50% 20%, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.35) 68%, transparent 100%);
+            animation: hero-grid-drift 32s linear infinite;
         }
 
         .dark .hero-grid-pattern {
             background-image:
                 linear-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
+        }
+
+        .hero-ambient-orb {
+            animation: hero-orb-float 12s ease-in-out infinite;
+        }
+
+        [data-reveal] {
+            --reveal-offset-x: 0px;
+            --reveal-offset-y: 28px;
+            --reveal-scale: 0.985;
+            opacity: 0;
+            transform: translate3d(var(--reveal-offset-x), var(--reveal-offset-y), 0) scale(var(--reveal-scale));
+            filter: blur(8px);
+            transition:
+                opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 800ms cubic-bezier(0.22, 1, 0.36, 1),
+                filter 800ms cubic-bezier(0.22, 1, 0.36, 1);
+            transition-delay: calc(var(--reveal-order, 0) * 90ms);
+            will-change: opacity, transform, filter;
+        }
+
+        [data-reveal="left"] {
+            --reveal-offset-x: -34px;
+            --reveal-offset-y: 0px;
+        }
+
+        [data-reveal="right"] {
+            --reveal-offset-x: 34px;
+            --reveal-offset-y: 0px;
+        }
+
+        [data-reveal="up"] {
+            --reveal-offset-y: 30px;
+        }
+
+        [data-reveal="zoom"] {
+            --reveal-offset-y: 16px;
+            --reveal-scale: 0.94;
+        }
+
+        [data-reveal].is-visible {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+            filter: blur(0);
         }
 
         .vn-preview-shell {
@@ -1172,7 +1217,61 @@
                 opacity: 1;
             }
         }
+
+        @keyframes hero-grid-drift {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                transform: translate3d(-16px, -10px, 0);
+            }
+
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes hero-orb-float {
+            0% {
+                transform: translate3d(-50%, 0, 0) scale(1);
+                opacity: 0.06;
+            }
+
+            50% {
+                transform: translate3d(-50%, -18px, 0) scale(1.06);
+                opacity: 0.12;
+            }
+
+            100% {
+                transform: translate3d(-50%, 0, 0) scale(1);
+                opacity: 0.06;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-grid-pattern,
+            .hero-ambient-orb {
+                animation: none !important;
+            }
+
+            [data-reveal] {
+                opacity: 1 !important;
+                transform: none !important;
+                filter: none !important;
+                transition: none !important;
+            }
+        }
     </style>
+    <noscript>
+        <style>
+            [data-reveal] {
+                opacity: 1 !important;
+                transform: none !important;
+                filter: none !important;
+            }
+        </style>
+    </noscript>
 </head>
 
 <body
@@ -1208,16 +1307,18 @@
     <section class="pt-32 pb-20 overflow-hidden relative">
         <div class="hero-grid-pattern"></div>
         <div
-            class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary opacity-5 dark:opacity-10 blur-[120px] rounded-full -z-10 pointer-events-none">
+            class="hero-ambient-orb absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary opacity-5 dark:opacity-10 blur-[120px] rounded-full -z-10 pointer-events-none">
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <div
-                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6">
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6"
+                data-reveal="up" style="--reveal-order: 0;">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
                 Just Released
             </div>
             <h1
-                class="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">
+                class="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-gray-400"
+                data-reveal="up" style="--reveal-order: 1;">
                 Take Notes and Draft Emails<br />by <span class="text-primary relative inline-block">
                     Speaking
                     <svg class="absolute -bottom-2 w-full h-3 text-primary opacity-40" preserveAspectRatio="none"
@@ -1226,11 +1327,13 @@
                     </svg>
                 </span>
             </h1>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed" data-reveal="up"
+                style="--reveal-order: 2;">
                 Capture notes, emails, and ideas in seconds. VoiceNote turns speech into ready-to-use text anywhere in
                 Windows 11.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16" data-reveal="up"
+                style="--reveal-order: 3;">
                 <a class="bg-primary hover:bg-primary-hover text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-glow hover:shadow-lg flex items-center gap-2 group"
                     href="https://github.com/schummelbaum/VoiceNote-builds/releases/latest" id="download-windows-btn"
                     rel="noopener noreferrer">
@@ -1249,7 +1352,8 @@
                     macOS — Soon
                 </button>
             </div>
-            <div class="vn-preview-shell max-w-7xl mx-auto mt-12 scroll-mt-32" id="preview">
+            <div class="vn-preview-shell max-w-7xl mx-auto mt-12 scroll-mt-32" data-reveal="zoom" id="preview"
+                style="--reveal-order: 4;">
                 <div class="vn-preview-wrapper">
                     <div class="vn-preview-stage" data-state="idle" id="vn-realistic-preview">
                         <div class="vn-app-window">
@@ -1584,7 +1688,7 @@
     </section>
     <section class="py-24 relative overflow-hidden" id="features">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-reveal="up">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Designed for Fast Capture
                 </h2>
                 <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">Speak your thoughts once and get clean text
@@ -1592,7 +1696,8 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div
-                    class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden">
+                    class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
+                    data-reveal="up" style="--reveal-order: 0;">
                     <div
                         class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-bl-[100px] pointer-events-none transition-opacity group-hover:opacity-10">
                     </div>
@@ -1607,7 +1712,8 @@
                     </p>
                 </div>
                 <div
-                    class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden">
+                    class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
+                    data-reveal="up" style="--reveal-order: 1;">
                     <div
                         class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-bl-[100px] pointer-events-none transition-opacity group-hover:opacity-10">
                     </div>
@@ -1622,7 +1728,8 @@
                     </p>
                 </div>
                 <div
-                    class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden">
+                    class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
+                    data-reveal="up" style="--reveal-order: 2;">
                     <div
                         class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-bl-[100px] pointer-events-none transition-opacity group-hover:opacity-10">
                     </div>
@@ -1641,7 +1748,7 @@
     </section>
     <section class="py-24 bg-surface-light dark:bg-[#151515] relative overflow-hidden" id="workflow">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-reveal="up">
                 <h2 class="text-3xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">Three steps. Start
                     writing faster.</h2>
                 <p class="text-gray-600 dark:text-gray-400 text-lg">From idea to polished text in seconds.</p>
@@ -1650,7 +1757,7 @@
                 <div class="hidden md:block absolute top-[28px] left-20 right-20 h-[1px] bg-border-dark opacity-40 z-0">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
-                    <div class="flex flex-col items-center text-center">
+                    <div class="flex flex-col items-center text-center" data-reveal="up" style="--reveal-order: 0;">
                         <div
                             class="w-14 h-14 rounded-2xl bg-surface-darker border border-primary/20 flex items-center justify-center mb-8 relative z-20 shadow-lg">
                             <span class="material-symbols-outlined text-xl text-primary">keyboard</span>
@@ -1660,7 +1767,7 @@
                         <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed px-4">A compact flyout
                             appears instantly at your cursor, so no app switching is needed.</p>
                     </div>
-                    <div class="flex flex-col items-center text-center">
+                    <div class="flex flex-col items-center text-center" data-reveal="up" style="--reveal-order: 1;">
                         <div
                             class="w-14 h-14 rounded-2xl bg-surface-darker border border-primary/20 flex items-center justify-center mb-8 relative z-20 shadow-lg">
                             <span class="material-symbols-outlined text-xl text-primary">mic</span>
@@ -1670,7 +1777,7 @@
                         <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed px-4">See a live waveform
                             and recording timer while you speak naturally at your own pace.</p>
                     </div>
-                    <div class="flex flex-col items-center text-center">
+                    <div class="flex flex-col items-center text-center" data-reveal="up" style="--reveal-order: 2;">
                         <div
                             class="w-14 h-14 rounded-2xl bg-surface-darker border border-primary/20 flex items-center justify-center mb-8 relative z-20 shadow-lg">
                             <span class="material-symbols-outlined text-xl text-primary">check</span>
@@ -1686,13 +1793,14 @@
     </section>
     <section class="py-24 bg-surface-light dark:bg-[#151515]" id="faq">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-reveal="up">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Frequently Asked Questions
                 </h2>
             </div>
             <div class="space-y-4">
                 <details
                     class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors"
+                    data-reveal="up" style="--reveal-order: 0;"
                     open>
                     <summary
                         class="flex justify-between items-center font-semibold text-lg list-none text-gray-900 dark:text-gray-100">
@@ -1706,7 +1814,8 @@
                     </p>
                 </details>
                 <details
-                    class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors">
+                    class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors"
+                    data-reveal="up" style="--reveal-order: 1;">
                     <summary
                         class="flex justify-between items-center font-semibold text-lg list-none text-gray-900 dark:text-gray-100">
                         What apps does VoiceNote work in?
@@ -1719,7 +1828,8 @@
                     </p>
                 </details>
                 <details
-                    class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors">
+                    class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors"
+                    data-reveal="up" style="--reveal-order: 2;">
                     <summary
                         class="flex justify-between items-center font-semibold text-lg list-none text-gray-900 dark:text-gray-100">
                         What languages are supported?
@@ -1732,7 +1842,8 @@
                     </p>
                 </details>
                 <details
-                    class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors">
+                    class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors"
+                    data-reveal="up" style="--reveal-order: 3;">
                     <summary
                         class="flex justify-between items-center font-semibold text-lg list-none text-gray-900 dark:text-gray-100">
                         How does it perform on my hardware?
@@ -1750,7 +1861,8 @@
     </section>
     <footer
         class="bg-background-light dark:bg-background-dark border-t border-border-light dark:border-border-dark py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-center"
+            data-reveal="up">
             <div class="flex items-center gap-2 justify-self-center md:justify-self-start">
                 <img alt="VoiceNote logo" class="w-6 h-6 rounded object-cover" src="VoiceNote.ico" />
                 <span class="font-bold text-gray-900 dark:text-white">VoiceNote</span>
@@ -1805,6 +1917,43 @@
                     window.location.href = fallbackUrl;
                 }
             });
+        }
+
+        const revealElements = Array.from(document.querySelectorAll('[data-reveal]'));
+        if (revealElements.length) {
+            const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const showRevealElement = (element) => {
+                element.classList.add('is-visible');
+            };
+
+            if (reducedMotionQuery.matches || !('IntersectionObserver' in window)) {
+                for (const element of revealElements) {
+                    showRevealElement(element);
+                }
+            } else {
+                const revealObserver = new IntersectionObserver((entries, observer) => {
+                    for (const entry of entries) {
+                        if (!entry.isIntersecting) {
+                            continue;
+                        }
+                        showRevealElement(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                }, {
+                    threshold: 0.16,
+                    rootMargin: '0px 0px -8% 0px',
+                });
+
+                const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+                for (const element of revealElements) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= viewportHeight * 0.9) {
+                        showRevealElement(element);
+                        continue;
+                    }
+                    revealObserver.observe(element);
+                }
+            }
         }
 
         const previewRoot = document.getElementById('vn-realistic-preview');
