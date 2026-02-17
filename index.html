@@ -1250,6 +1250,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+
             .hero-grid-pattern,
             .hero-ambient-orb {
                 animation: none !important;
@@ -1310,14 +1311,12 @@
             class="hero-ambient-orb absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary opacity-5 dark:opacity-10 blur-[120px] rounded-full -z-10 pointer-events-none">
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div
-                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6"
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6"
                 data-reveal="up" style="--reveal-order: 0;">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
                 Just Released
             </div>
-            <h1
-                class="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-gray-400"
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-gray-400"
                 data-reveal="up" style="--reveal-order: 1;">
                 Take Notes and Draft Emails<br />by <span class="text-primary relative inline-block">
                     Speaking
@@ -1332,9 +1331,9 @@
                 Capture notes, emails, and ideas in seconds. VoiceNote turns speech into ready-to-use text anywhere in
                 Windows 11.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16" data-reveal="up"
+            <div class="flex flex-col gap-4 justify-center items-center mb-16" data-reveal="up"
                 style="--reveal-order: 3;">
-                <a class="bg-primary hover:bg-primary-hover text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-glow hover:shadow-lg flex items-center gap-2 group"
+                <a class="bg-primary hover:bg-primary-hover text-white px-8 h-14 rounded-xl font-semibold transition-all shadow-glow hover:shadow-lg flex items-center justify-center gap-2 group"
                     href="https://github.com/schummelbaum/VoiceNote-builds/releases/latest" id="download-windows-btn"
                     rel="noopener noreferrer">
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" height="1em" stroke="currentColor"
@@ -1345,12 +1344,23 @@
                     </svg>
                     Download for Windows
                 </a>
-                <button aria-disabled="true"
-                    class="border border-dashed border-gray-400 bg-transparent hover:bg-gray-50/10 text-gray-400 px-8 py-3.5 rounded-xl font-semibold transition-all flex items-center gap-2 opacity-60 hover:opacity-100 pointer-events-none"
-                    tabindex="-1" type="button">
-                    <i class="fa-brands fa-apple text-lg"></i>
-                    macOS — Soon
-                </button>
+                <div class="flex flex-col items-center gap-3">
+                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Also available for</p>
+                    <div class="flex flex-row gap-3">
+                        <button aria-disabled="true"
+                            class="border border-dashed border-gray-400 bg-transparent hover:bg-gray-50/10 text-gray-400 px-8 h-[52px] rounded-xl font-semibold transition-all flex items-center justify-center gap-2 opacity-60 hover:opacity-100 pointer-events-none"
+                            tabindex="-1" type="button">
+                            <i class="fa-brands fa-apple text-lg"></i>
+                            macOS — Soon
+                        </button>
+                        <button aria-disabled="true"
+                            class="border border-dashed border-gray-400 bg-transparent hover:bg-gray-50/10 text-gray-400 px-8 h-[52px] rounded-xl font-semibold transition-all flex items-center justify-center gap-2 opacity-60 hover:opacity-100 pointer-events-none"
+                            tabindex="-1" type="button">
+                            <i class="fa-brands fa-linux text-lg"></i>
+                            Linux — Soon
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="vn-preview-shell max-w-7xl mx-auto mt-12 scroll-mt-32" data-reveal="zoom" id="preview"
                 style="--reveal-order: 4;">
@@ -1695,8 +1705,7 @@
                     ready for notes, emails, and messages.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div
-                    class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
+                <div class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
                     data-reveal="up" style="--reveal-order: 0;">
                     <div
                         class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-bl-[100px] pointer-events-none transition-opacity group-hover:opacity-10">
@@ -1711,8 +1720,7 @@
                         away.
                     </p>
                 </div>
-                <div
-                    class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
+                <div class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
                     data-reveal="up" style="--reveal-order: 1;">
                     <div
                         class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-bl-[100px] pointer-events-none transition-opacity group-hover:opacity-10">
@@ -1727,8 +1735,7 @@
                         confidence.
                     </p>
                 </div>
-                <div
-                    class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
+                <div class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
                     data-reveal="up" style="--reveal-order: 2;">
                     <div
                         class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-bl-[100px] pointer-events-none transition-opacity group-hover:opacity-10">
@@ -1800,8 +1807,7 @@
             <div class="space-y-4">
                 <details
                     class="group bg-white dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark cursor-pointer open:border-primary/50 dark:open:border-primary/50 transition-colors"
-                    data-reveal="up" style="--reveal-order: 0;"
-                    open>
+                    data-reveal="up" style="--reveal-order: 0;" open>
                     <summary
                         class="flex justify-between items-center font-semibold text-lg list-none text-gray-900 dark:text-gray-100">
                         Is my voice data private?
