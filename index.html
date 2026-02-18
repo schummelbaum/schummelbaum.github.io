@@ -118,6 +118,21 @@
             animation: hero-orb-float 12s ease-in-out infinite;
         }
 
+        .hero-grid-fade {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: clamp(120px, 22vh, 260px);
+            pointer-events: none;
+            z-index: 1;
+            background: linear-gradient(180deg, rgba(243, 244, 246, 0) 0%, rgba(243, 244, 246, 0.48) 56%, rgba(243, 244, 246, 0.84) 82%, #f3f4f6 100%);
+        }
+
+        .dark .hero-grid-fade {
+            background: linear-gradient(180deg, rgba(18, 18, 18, 0) 0%, rgba(18, 18, 18, 0.46) 56%, rgba(18, 18, 18, 0.84) 82%, #121212 100%);
+        }
+
         [data-reveal] {
             --reveal-offset-x: 0px;
             --reveal-offset-y: 28px;
@@ -163,13 +178,20 @@
             text-align: left;
         }
 
+        #preview[data-reveal].is-visible {
+            transform: none;
+        }
+
         .vn-preview-stage {
             position: relative;
-            width: min(100%, 420px);
-            min-height: 720px;
+            width: min(100%, 360px);
             margin: 0 auto;
-            padding-bottom: 130px;
             text-align: left;
+        }
+
+        .vn-preview-stage--app {
+            min-height: 0;
+            padding-bottom: 0;
         }
 
         .vn-app-window {
@@ -304,7 +326,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            padding: 2px 5px 12px 12px;
+            padding: 2px 10px 0px;
         }
 
         .vn-history-header {
@@ -326,8 +348,11 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            padding: 0 5px 2px 0;
-            margin-right: -5px;
+            padding: 0 0 10px;
+        }
+
+        .vn-history-list>.vn-history-card {
+            align-self: stretch;
         }
 
         .vn-history-card {
@@ -498,6 +523,21 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+        }
+
+        .vn-settings-version-footer {
+            margin-top: 2px;
+            padding: 2px 2px 2px 4px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .vn-settings-version-text {
+            font-size: 10px;
+            line-height: 1.3;
+            color: rgba(156, 163, 175, 0.84);
+            letter-spacing: 0.16px;
+            user-select: none;
         }
 
         .vn-setting-item {
@@ -693,13 +733,16 @@
         }
 
         .vn-flyout-frame {
-            position: absolute;
-            left: 50%;
-            bottom: 32px;
+            position: relative;
             width: 151px;
             height: 46px;
-            transform: translateX(-50%);
-            transition: width 190ms cubic-bezier(0.22, 1, 0.36, 1);
+            margin: 0 auto;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition:
+                width 190ms cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
             z-index: 3;
         }
 
@@ -708,7 +751,7 @@
             inset: 8px;
             border-radius: 17px;
             border: 1px solid #3a3a3a;
-            background: #292929;
+            background: #171717;
             display: inline-flex;
             align-items: center;
             gap: 5px;
@@ -848,109 +891,116 @@
         }
 
         .vn-settings-list::-webkit-scrollbar,
-        .vn-history-list::-webkit-scrollbar,
         .vn-setting-combo-menu::-webkit-scrollbar {
             width: 4px;
         }
 
         .vn-settings-list,
-        .vn-history-list,
         .vn-setting-combo-menu {
             scrollbar-width: thin;
             scrollbar-color: rgba(255, 255, 255, 0.24) transparent;
         }
 
         .vn-settings-list::-webkit-scrollbar-track,
-        .vn-history-list::-webkit-scrollbar-track,
         .vn-setting-combo-menu::-webkit-scrollbar-track {
             background: transparent;
         }
 
         .vn-settings-list::-webkit-scrollbar-thumb,
-        .vn-history-list::-webkit-scrollbar-thumb,
         .vn-setting-combo-menu::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.14);
             border-radius: 12px;
         }
 
         .vn-settings-list::-webkit-scrollbar-thumb:hover,
-        .vn-history-list::-webkit-scrollbar-thumb:hover,
         .vn-setting-combo-menu::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.24);
         }
 
-        #vn-realistic-preview[data-state="idle"] .vn-mic-idle {
+        #vn-app-preview[data-state="idle"] .vn-mic-idle {
             opacity: 1;
         }
 
-        #vn-realistic-preview[data-state="listening"] .vn-mic-listening {
+        #vn-app-preview[data-state="listening"] .vn-mic-listening {
             opacity: 1;
         }
 
-        #vn-realistic-preview[data-state="listening"] .vn-mic-button {
+        #vn-app-preview[data-state="listening"] .vn-mic-button {
             border-color: rgba(239, 68, 68, 0.46);
             background: #442626;
             color: #f87171;
         }
 
-        #vn-realistic-preview[data-state="listening"] .vn-mic-button::before {
+        #vn-app-preview[data-state="listening"] .vn-mic-button::before {
             animation: vn-mic-ring 1.25s ease-out infinite;
         }
 
-        #vn-realistic-preview[data-state="listening"] .vn-recording-label,
-        #vn-realistic-preview[data-state="listening"] .vn-fly-timer {
+        #vn-app-preview[data-state="listening"] .vn-recording-label {
             color: rgba(248, 86, 86, 0.98);
         }
 
-        #vn-realistic-preview[data-state="listening"] .vn-fly-wave-bar {
+        #vn-flyout-preview[data-state="listening"] .vn-fly-timer {
+            color: rgba(248, 86, 86, 0.98);
+        }
+
+        #vn-flyout-preview[data-state="listening"] .vn-flyout-frame,
+        #vn-flyout-preview[data-state="transcribing"] .vn-flyout-frame {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        #vn-flyout-preview[data-state="listening"] .vn-fly-wave-bar {
             background: rgba(248, 86, 86, 0.92);
         }
 
-        #vn-realistic-preview[data-state="transcribing"] .vn-mic-button {
+        #vn-app-preview[data-state="transcribing"] .vn-mic-button {
             border-color: rgba(148, 163, 184, 0.34);
             background: #303640;
             color: #dbe4ef;
         }
 
-        #vn-realistic-preview[data-state="transcribing"] .vn-mic-spinner {
+        #vn-app-preview[data-state="transcribing"] .vn-mic-spinner {
             display: block;
         }
 
-        #vn-realistic-preview[data-state="transcribing"] .vn-recording-label {
+        #vn-app-preview[data-state="transcribing"] .vn-recording-label {
             color: #dbe4ef;
             animation: vn-processing-pulse 1s ease-in-out infinite;
         }
 
-        #vn-realistic-preview[data-state="transcribing"] .vn-flyout-frame {
+        #vn-flyout-preview[data-state="transcribing"] .vn-flyout-frame {
             width: 98px;
         }
 
-        #vn-realistic-preview[data-state="transcribing"] .vn-flyout-pill {
+        #vn-flyout-preview[data-state="transcribing"] .vn-flyout-pill {
             background: #282b30;
             border-color: #474e57;
             padding-left: 6px;
             padding-right: 5px;
         }
 
-        #vn-realistic-preview[data-state="transcribing"] .vn-fly-btn-close,
-        #vn-realistic-preview[data-state="transcribing"] .vn-fly-timer,
-        #vn-realistic-preview[data-state="transcribing"] .vn-fly-btn-finish {
+        #vn-flyout-preview[data-state="transcribing"] .vn-fly-btn-close,
+        #vn-flyout-preview[data-state="transcribing"] .vn-fly-timer,
+        #vn-flyout-preview[data-state="transcribing"] .vn-fly-btn-finish {
             display: none;
         }
 
-        #vn-realistic-preview[data-state="transcribing"] .vn-fly-spinner {
+        #vn-flyout-preview[data-state="transcribing"] .vn-fly-spinner {
             display: block;
         }
 
-        #vn-realistic-preview[data-state="transcribing"] .vn-fly-wave-bar {
+        #vn-flyout-preview[data-state="transcribing"] .vn-fly-wave-bar {
             background: rgba(219, 228, 239, 0.95);
+            animation: none;
+            height: 2px;
         }
 
-        #vn-realistic-preview.is-settings-open .vn-settings-sidebar {
+        #vn-app-preview.is-settings-open .vn-settings-sidebar {
             transform: translateX(0);
         }
 
-        #vn-realistic-preview.is-settings-open .vn-settings-overlay {
+        #vn-app-preview.is-settings-open .vn-settings-overlay {
             opacity: 1;
             pointer-events: auto;
         }
@@ -989,8 +1039,6 @@
         @media (max-width: 720px) {
             .vn-preview-stage {
                 width: min(100%, 336px);
-                min-height: 690px;
-                padding-bottom: 116px;
             }
 
             .vn-app-window {
@@ -998,79 +1046,287 @@
             }
         }
 
-        /* Context Panel Styles */
-        .vn-preview-wrapper {
+        .vn-showcase-stack {
+            max-width: 980px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        /* ── Scrollytelling layout ── */
+        .vn-scrolly-section {
+            --vn-scrolly-top: clamp(74px, 8vh, 104px);
+            --vn-scrolly-step-height: clamp(240px, 44vh, 420px);
+            --vn-scrolly-step-count: 3;
+            --vn-scrolly-duration-multiplier: 5;
+            --vn-scrolly-slot-height: calc(100vh - var(--vn-scrolly-top) - 24px);
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+            align-items: start;
+            column-gap: clamp(32px, 5vw, 64px);
+            row-gap: 0;
+            padding-top: clamp(10px, 2.5vh, 22px);
+            padding-bottom: clamp(14px, 3.5vh, 30px);
+            min-height: calc((var(--vn-scrolly-step-height) * var(--vn-scrolly-step-count) * var(--vn-scrolly-duration-multiplier)) + var(--vn-scrolly-top) + 24px);
+        }
+
+        /* App section: sticky app preview on the left, text on the right */
+        .vn-scrolly-section--app .vn-scrolly-sticky {
+            grid-column: 1;
+            justify-self: end;
+        }
+
+        .vn-scrolly-section--app .vn-scrolly-steps {
+            grid-column: 2;
+            justify-self: start;
+        }
+
+        /* Flyout swaps columns so the flyout UI sits on the right on wide screens */
+        .vn-scrolly-section--flyout {
+            --vn-scrolly-step-height: clamp(360px, 62vh, 860px);
+            --vn-scrolly-duration-multiplier: 1.25;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+            padding-top: clamp(6px, 1.5vh, 16px);
+        }
+
+        .vn-scrolly-section--app {
+            --vn-scrolly-step-height: clamp(360px, 62vh, 860px);
+            --vn-scrolly-duration-multiplier: 1.25;
+            padding-bottom: clamp(8px, 2vh, 20px);
+        }
+
+        .vn-scrolly-section--flyout .vn-scrolly-sticky {
+            grid-column: 2;
+            grid-row: 1;
+            justify-self: start;
+        }
+
+        /* Mirror app section: same sticky/slot behavior so flyout text “flies” with the flyout */
+        .vn-scrolly-section--flyout .vn-scrolly-steps {
+            grid-column: 1;
+            grid-row: 1;
+            justify-self: end;
+            position: sticky;
+            top: var(--vn-scrolly-top);
+            height: var(--vn-scrolly-slot-height);
+            align-self: start;
+            width: min(100%, 420px);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            min-height: 0;
+            z-index: 2;
+        }
+
+        /* App / flyout previews: stick within the hero area while text scrolls */
+        .vn-scrolly-sticky {
+            position: sticky;
+            top: var(--vn-scrolly-top);
+            align-self: start;
+            height: var(--vn-scrolly-slot-height);
+            min-height: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Container around preview shell */
+        .vn-scrolly-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        /* Text column with individual scroll steps */
+        .vn-scrolly-steps {
+            width: min(100%, 420px);
+            position: sticky;
+            top: var(--vn-scrolly-top);
+            height: var(--vn-scrolly-slot-height);
+            align-self: start;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            z-index: 1;
+        }
+
+        /* Flyout: ensure text column stacks above preview and grid so it “flies” like the app text */
+        .vn-scrolly-section--flyout .vn-scrolly-sticky {
+            z-index: 1;
+        }
+
+        .vn-scrolly-step {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: stretch;
+            min-height: 0;
+        }
+
+        .vn-scrolly-step .vn-context-panel {
+            position: relative;
+            height: 100%;
+            width: min(100%, 380px);
+            margin-inline: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .vn-scrolly-section--flyout .vn-scrolly-step .vn-context-panel {
+            align-items: flex-end;
+        }
+
+        .vn-scrolly-step .vn-context-item {
+            display: flex;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .vn-scrolly-step .vn-context-item.is-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .vn-showcase-visual {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .vn-showcase-visual--app {
+            width: min(100%, 360px);
+        }
+
+        .vn-showcase-visual--flyout {
+            width: min(100%, 360px);
+            align-items: center;
+            min-height: 180px;
+        }
+
+        /* ── Flyout idle state: hide only the pill (no flyout until hotkey); keep background + taskbar icons ── */
+        #vn-flyout-preview[data-state="idle"] .vn-flyout-frame {
+            opacity: 0;
+            transform: translateY(8px) scale(0.96);
+            pointer-events: none;
+        }
+
+        .vn-flyout-showcase {
+            --vn-taskbar-height: 48px;
+            width: min(100%, 320px);
+            min-height: 150px;
+            border-radius: 16px;
+            border: 1px solid rgba(100, 116, 139, 0.22);
+            background-image:
+                url('flyout-showcase-bg.png'),
+                linear-gradient(#0f172a, #0f172a);
+            background-size:
+                100% calc(100% - var(--vn-taskbar-height)),
+                100% 100%;
+            background-position:
+                top center,
+                center;
+            background-repeat: no-repeat;
+            background-color: #0f172a;
+            position: relative;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0;
-            position: relative;
-            max-width: 900px;
-            margin: 0 auto;
+            padding: 12px;
         }
 
-        @media (max-width: 1024px) {
-            .vn-preview-wrapper {
-                flex-direction: column;
-                gap: 40px;
-            }
+        .dark .vn-flyout-showcase {
+            border-color: rgba(148, 163, 184, 0.18);
+            background-color: #0f172a;
         }
+
+
+        .vn-taskbar-mockup {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--vn-taskbar-height);
+            background: rgba(32, 32, 32, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .vn-taskbar-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+        }
+
+        .vn-taskbar-icon {
+            font-size: 24px;
+            color: #e0e0e0;
+        }
+
+        .vn-taskbar-icon.start-icon {
+            color: #00a4ef;
+            /* Windows Blue */
+        }
+
 
         .vn-context-panel {
-            width: 380px;
-            flex-shrink: 0;
+            width: min(100%, 380px);
+            min-height: 0;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            position: relative;
-            min-height: 400px;
-            padding: 20px 0;
-            margin-top: -160px;
-            /* Raised significantly higher */
+            justify-content: center;
+            padding: 0;
+            margin: 0;
         }
 
         .vn-context-content-wrapper {
             position: relative;
-            flex: 1;
             width: 100%;
-            margin-top: 40px;
-            /* Adjusted spacing */
         }
 
         .vn-context-item {
-            position: absolute;
-            top: 40%;
-            /* Moved up slightly */
-            left: 0;
-            right: 0;
-            transform: translateY(-50%);
-            opacity: 0;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            pointer-events: none;
             display: flex;
             flex-direction: column;
             gap: 24px;
-            /* Increased gap to push description down relative to divider */
+            opacity: 0.22;
+            pointer-events: none;
+            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .vn-context-item.is-active {
             opacity: 1;
             pointer-events: auto;
-            transform: translateY(-50%);
         }
 
         .vn-context-title {
-            font-size: 48px;
-            /* Increased */
+            font-size: 42px;
             font-weight: 800;
-            line-height: 1.05;
+            line-height: 1.15;
             letter-spacing: -0.02em;
             background: linear-gradient(to bottom, #1f2937, #4b5563);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0;
-            /* Removed margin to compact */
             position: relative;
         }
 
@@ -1080,14 +1336,39 @@
             width: 100%;
             height: 2px;
             background: linear-gradient(to right, #EF4444, transparent);
-            margin-top: 12px;
-            /* Closer to text (upper third) */
+            margin-top: 10px;
             border-radius: 2px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .vn-scrolly-step .vn-context-item.is-active .vn-context-title::after {
             opacity: 0.8;
         }
 
         .dark .vn-context-title::after {
             background: linear-gradient(to right, #EF4444, transparent);
+        }
+
+        /* Flyout section: text on left, visual on right - underline fades left */
+        .vn-scrolly-section--flyout .vn-context-title::after {
+            background: linear-gradient(to left, #EF4444, transparent);
+        }
+
+        /* Flyout section: right-align text to connect visually with flyout on the right */
+        .vn-scrolly-section--flyout .vn-context-panel {
+            text-align: right;
+            align-items: flex-end;
+        }
+
+        .vn-scrolly-section--flyout .vn-context-title,
+        .vn-scrolly-section--flyout .vn-context-text {
+            text-align: right;
+        }
+
+        .vn-scrolly-section--flyout .vn-context-tag {
+            margin-left: auto;
+            margin-right: 0;
         }
 
         .dark .vn-context-title {
@@ -1098,10 +1379,18 @@
         }
 
         .vn-context-text {
-            font-size: 18px;
-            /* Increased from 16px */
+            font-size: 16px;
             line-height: 1.6;
             color: #4b5563;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease 0.15s, max-height 0.5s ease;
+        }
+
+        .vn-scrolly-step .vn-context-item.is-active .vn-context-text {
+            max-height: 100px;
+            opacity: 1;
         }
 
         .dark .vn-context-text {
@@ -1129,92 +1418,94 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Demo Controls */
-        .vn-demo-toggle {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-            background: transparent;
-            color: #6b7280;
-        }
-
-        .dark .vn-demo-toggle {
-            color: #9ca3af;
-        }
-
-        .vn-demo-toggle:hover {
-            background: rgba(0, 0, 0, 0.05);
-            color: #111827;
-        }
-
-        .dark .vn-demo-toggle:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-        }
-
-        .vn-demo-toggle.is-active {
-            background: #fff;
-            color: #ef4444;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border-color: #e5e7eb;
-        }
-
-        .dark .vn-demo-toggle.is-active {
-            background: #2d2d2d;
-            color: #ef4444;
-            border-color: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Flyout Mode Specifics */
-        #vn-realistic-preview[data-context="flyout"] .vn-app-shell {
-            opacity: 0.4;
-            filter: grayscale(1);
-            transform: scale(0.98);
-            transition: all 0.4s ease;
-            pointer-events: none;
-        }
-
-        #vn-realistic-preview .vn-app-shell {
-            transition: all 0.4s ease;
-        }
-
-        #vn-realistic-preview[data-context="flyout"] .vn-flyout-frame {
-            animation: vn-flyout-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 1;
-            filter: none;
-            transform: translateX(-50%) scale(1);
-        }
-
-        /* Diabled Flyout State */
-        #vn-realistic-preview[data-context="app"] .vn-flyout-frame {
-            opacity: 0.3;
-            filter: blur(1px) grayscale(0.8);
-            transform: translateX(-50%) scale(0.95);
-            transition: all 0.5s ease;
-        }
-
-        /* Disable interactions when in App mode */
-        #vn-realistic-preview[data-context="app"] .vn-flyout-pill {
-            pointer-events: none;
-        }
-
-        @keyframes vn-flyout-pop {
-            0% {
-                transform: translate(-50%, 20px) scale(0.9);
-                opacity: 0;
+        @media (max-width: 768px) {
+            .vn-scrolly-section {
+                display: flex;
+                flex-direction: column !important;
+                align-items: center;
+                gap: 32px;
+                min-height: auto;
+                padding-top: 40px;
+                padding-bottom: 40px;
             }
 
-            100% {
-                transform: translate(-50%, 0) scale(1);
+            .vn-scrolly-sticky {
+                position: relative;
+                top: auto;
+                height: auto;
+                transform: none;
+            }
+
+            .vn-scrolly-steps {
+                width: 100%;
+                position: relative;
+                height: auto;
+                top: auto;
+                transform: none;
+                gap: 32px;
+            }
+
+            .vn-scrolly-step {
+                position: relative;
+                inset: auto;
+                top: auto;
+                transform: none;
+                margin-bottom: 0;
+                min-height: auto;
+            }
+
+            .vn-scrolly-step .vn-context-panel {
+                position: relative;
+                inset: auto;
+                width: min(100%, 380px);
+                margin-inline: 0;
+                height: auto;
+                min-height: auto;
+                pointer-events: auto;
+            }
+
+            .vn-scrolly-step:last-child {
+                margin-bottom: 0;
+            }
+
+            .vn-scrolly-step .vn-context-item {
                 opacity: 1;
+            }
+
+            .vn-scrolly-step .vn-context-item:not(.is-active) .vn-context-text {
+                opacity: 0.5;
+                max-height: 100px;
+            }
+
+            .vn-context-panel {
+                text-align: center;
+            }
+
+            .vn-scrolly-section--flyout .vn-context-panel,
+            .vn-scrolly-section--flyout .vn-context-title,
+            .vn-scrolly-section--flyout .vn-context-text {
+                text-align: center;
+                align-items: center;
+            }
+
+            .vn-context-tag {
+                margin-inline: auto;
+            }
+
+            .vn-context-title::after {
+                max-width: 280px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .vn-showcase-stack {
+                gap: 44px;
+            }
+
+            .vn-context-title {
+                font-size: 40px;
             }
         }
 
@@ -1288,7 +1579,7 @@
                 </div>
                 <div class="hidden md:flex space-x-8 items-center">
                     <a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium"
-                        href="#preview">Preview</a>
+                        href="#preview">Live Preview</a>
                     <a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium"
                         href="#features">Features</a>
                     <a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium"
@@ -1297,26 +1588,39 @@
                         href="#faq">FAQ</a>
                 </div>
                 <div class="md:hidden flex items-center">
-                    <button
+                    <button id="mobile-nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel"
                         class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none">
-                        <span class="material-symbols-outlined">menu</span>
+                        <span class="material-symbols-outlined" data-mobile-nav-icon>menu</span>
                     </button>
+                </div>
+            </div>
+            <div class="md:hidden hidden py-3 border-t border-border-light dark:border-border-dark" id="mobile-nav-panel">
+                <div class="flex flex-col gap-1">
+                    <a class="px-2 py-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-gray-100/60 dark:hover:bg-gray-800/60 transition-colors text-sm font-medium"
+                        data-mobile-nav-link href="#preview">Live Preview</a>
+                    <a class="px-2 py-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-gray-100/60 dark:hover:bg-gray-800/60 transition-colors text-sm font-medium"
+                        data-mobile-nav-link href="#features">Features</a>
+                    <a class="px-2 py-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-gray-100/60 dark:hover:bg-gray-800/60 transition-colors text-sm font-medium"
+                        data-mobile-nav-link href="#workflow">Workflow</a>
+                    <a class="px-2 py-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-gray-100/60 dark:hover:bg-gray-800/60 transition-colors text-sm font-medium"
+                        data-mobile-nav-link href="#faq">FAQ</a>
                 </div>
             </div>
         </div>
     </nav>
-    <section class="pt-32 pb-20 overflow-hidden relative">
+    <section class="pt-32 pb-28 md:pb-32 relative">
         <div class="hero-grid-pattern"></div>
         <div
             class="hero-ambient-orb absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary opacity-5 dark:opacity-10 blur-[120px] rounded-full -z-10 pointer-events-none">
         </div>
+        <div class="hero-grid-fade"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6"
                 data-reveal="up" style="--reveal-order: 0;">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
                 Just Released
             </div>
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-gray-400"
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight leading-[1.16] md:leading-[1.12] pb-[0.12em] mb-8 md:mb-10 bg-clip-text text-transparent bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-gray-400"
                 data-reveal="up" style="--reveal-order: 1;">
                 Take Notes and Draft Emails<br />by <span class="text-primary relative inline-block">
                     Speaking
@@ -1326,12 +1630,12 @@
                     </svg>
                 </span>
             </h1>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed" data-reveal="up"
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-12 md:mb-14 leading-relaxed" data-reveal="up"
                 style="--reveal-order: 2;">
                 Capture notes, emails, and ideas in seconds. VoiceNote turns speech into ready-to-use text anywhere in
                 Windows 11.
             </p>
-            <div class="flex flex-col gap-4 justify-center items-center mb-16" data-reveal="up"
+            <div class="flex flex-col gap-5 justify-center items-center mb-12 md:mb-16" data-reveal="up"
                 style="--reveal-order: 3;">
                 <a class="bg-primary hover:bg-primary-hover text-white px-8 h-14 rounded-xl font-semibold transition-all shadow-glow hover:shadow-lg flex items-center justify-center gap-2 group"
                     href="https://github.com/schummelbaum/VoiceNote-builds/releases/latest" id="download-windows-btn"
@@ -1362,339 +1666,281 @@
                     </div>
                 </div>
             </div>
-            <div class="vn-preview-shell max-w-7xl mx-auto mt-12 scroll-mt-32" data-reveal="zoom" id="preview"
-                style="--reveal-order: 4;">
-                <div class="vn-preview-wrapper">
-                    <div class="vn-preview-stage" data-state="idle" id="vn-realistic-preview">
-                        <div class="vn-app-window">
-                            <div class="vn-app-shell">
-                                <aside class="vn-settings-sidebar">
-                                    <div class="vn-settings-header">
-                                        <h3 class="vn-settings-title">
-                                            <span class="material-symbols-outlined">settings</span>
-                                            Settings
-                                        </h3>
-                                        <button class="vn-settings-close" id="vn-settings-close-button" type="button">
-                                            <span class="material-symbols-outlined">close</span>
-                                        </button>
+        </div>
+    </section>
+    <section class="py-24 relative scroll-mt-32 bg-background-light dark:bg-background-dark" id="preview">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-reveal="up" data-reveal-early="true" style="--reveal-order: 0;">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Live Preview</h2>
+                <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">Watch the app and flyout respond as if you were using VoiceNote in real time.</p>
+            </div>
+            <div class="vn-preview-shell max-w-7xl mx-auto" data-reveal="zoom" data-reveal-early="true"
+                style="--reveal-order: 1;">
+                <div class="vn-showcase-stack">
+
+                    <!-- ═══ App Scrollytelling Section ═══ -->
+                    <div class="vn-scrolly-section vn-scrolly-section--app" data-scrolly-section="app" data-scrolly-tail="0">
+                        <!-- Sticky app preview (left) -->
+                        <div class="vn-scrolly-sticky" data-scrolly-sticky="app">
+                            <div class="vn-scrolly-content">
+                                <div class="vn-showcase-visual vn-showcase-visual--app">
+                                    <div class="vn-preview-stage vn-preview-stage--app" data-state="idle" id="vn-app-preview">
+                                        <div class="vn-app-window">
+                                            <div class="vn-app-shell">
+                                                <section class="vn-main-panel">
+                                                    <span class="vn-gear-button" aria-hidden="true">
+                                                        <span class="material-symbols-outlined">settings</span>
+                                                    </span>
+                                                    <header class="vn-mic-header">
+                                                        <span class="vn-mic-button" aria-hidden="true">
+                                                            <span
+                                                                class="material-symbols-outlined vn-mic-icon vn-mic-idle">mic</span>
+                                                            <span
+                                                                class="material-symbols-outlined vn-mic-icon vn-mic-listening">stop</span>
+                                                            <span aria-hidden="true" class="vn-mic-spinner">
+                                                                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                                                            </span>
+                                                        </span>
+                                                        <p class="vn-recording-label" id="vn-preview-recording-label">Tap to
+                                                            record</p>
+                                                    </header>
+                                                    <section class="vn-history-section">
+                                                        <div class="vn-history-header">
+                                                            <span class="material-symbols-outlined">history</span>
+                                                            <span>History</span>
+                                                        </div>
+                                                        <div class="vn-history-list" id="vn-history-list">
+                                                            <article class="vn-history-card is-recent">
+                                                                <div class="vn-history-card-top">
+                                                                    <span class="vn-history-time">Just now</span>
+                                                                    <span class="vn-history-actions">
+                                                                        <span aria-label="Edit entry"
+                                                                            class="vn-history-action vn-history-action--edit"
+                                                                            title="Edit entry">
+                                                                            <span class="material-symbols-outlined">edit</span>
+                                                                        </span>
+                                                                        <span aria-label="Delete entry"
+                                                                            class="vn-history-action vn-history-action--delete"
+                                                                            title="Delete entry">
+                                                                            <span
+                                                                                class="material-symbols-outlined">delete</span>
+                                                                        </span>
+                                                                        <span aria-label="Copy entry"
+                                                                            class="vn-history-action vn-history-action--copy"
+                                                                            title="Copy entry">
+                                                                            <span
+                                                                                class="material-symbols-outlined">content_copy</span>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                                <p class="vn-history-text">Hey Josh, thanks for your email
+                                                                    today. I
+                                                                    reviewed the proposal and will send feedback tomorrow.</p>
+                                                            </article>
+                                                            <article class="vn-history-card">
+                                                                <div class="vn-history-card-top">
+                                                                    <span class="vn-history-time">2 mins ago</span>
+                                                                    <span class="vn-history-actions">
+                                                                        <span aria-label="Edit entry"
+                                                                            class="vn-history-action vn-history-action--edit"
+                                                                            title="Edit entry">
+                                                                            <span class="material-symbols-outlined">edit</span>
+                                                                        </span>
+                                                                        <span aria-label="Delete entry"
+                                                                            class="vn-history-action vn-history-action--delete"
+                                                                            title="Delete entry">
+                                                                            <span
+                                                                                class="material-symbols-outlined">delete</span>
+                                                                        </span>
+                                                                        <span aria-label="Copy entry"
+                                                                            class="vn-history-action vn-history-action--copy"
+                                                                            title="Copy entry">
+                                                                            <span
+                                                                                class="material-symbols-outlined">content_copy</span>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                                <p class="vn-history-text">Meeting notes: launch is on track,
+                                                                    design
+                                                                    review moved to Thursday, and Sarah will share final assets.
+                                                                </p>
+                                                            </article>
+                                                            <article class="vn-history-card">
+                                                                <div class="vn-history-card-top">
+                                                                    <span class="vn-history-time">5 mins ago</span>
+                                                                    <span class="vn-history-actions">
+                                                                        <span aria-label="Edit entry"
+                                                                            class="vn-history-action vn-history-action--edit"
+                                                                            title="Edit entry">
+                                                                            <span class="material-symbols-outlined">edit</span>
+                                                                        </span>
+                                                                        <span aria-label="Delete entry"
+                                                                            class="vn-history-action vn-history-action--delete"
+                                                                            title="Delete entry">
+                                                                            <span
+                                                                                class="material-symbols-outlined">delete</span>
+                                                                        </span>
+                                                                        <span aria-label="Copy entry"
+                                                                            class="vn-history-action vn-history-action--copy"
+                                                                            title="Copy entry">
+                                                                            <span
+                                                                                class="material-symbols-outlined">content_copy</span>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                                <p class="vn-history-text">Hi team, quick update: QA passed,
+                                                                    release is
+                                                                    scheduled for Friday, and docs are almost finished.</p>
+                                                            </article>
+                                                        </div>
+                                                    </section>
+                                                </section>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="vn-settings-list">
-                                        <div class="vn-setting-item">
-                                            <div class="vn-setting-copy">
-                                                <div class="vn-setting-title">Transcription Language</div>
-                                                <div class="vn-setting-help">Use Auto-detect for mixed speech.</div>
-                                            </div>
-                                            <div class="vn-setting-combo" id="vn-setting-language-combo">
-                                                <button aria-expanded="false" aria-haspopup="listbox"
-                                                    class="vn-setting-combo-button" id="vn-setting-language-button"
-                                                    type="button">
-                                                    <span id="vn-setting-language-value">Auto-detect</span>
-                                                    <span class="material-symbols-outlined">expand_more</span>
-                                                </button>
-                                                <div aria-label="Transcription language" class="vn-setting-combo-menu"
-                                                    id="vn-setting-language-menu" role="listbox">
-                                                    <button class="vn-setting-combo-option is-selected"
-                                                        data-value="auto" type="button">Auto-detect</button>
-                                                    <button class="vn-setting-combo-option" data-value="en"
-                                                        type="button">English</button>
-                                                    <button class="vn-setting-combo-option" data-value="de"
-                                                        type="button">German</button>
-                                                    <button class="vn-setting-combo-option" data-value="es"
-                                                        type="button">Spanish</button>
-                                                    <button class="vn-setting-combo-option" data-value="fr"
-                                                        type="button">French</button>
-                                                    <button class="vn-setting-combo-option" data-value="ja"
-                                                        type="button">Japanese</button>
-                                                    <button class="vn-setting-combo-option" data-value="ko"
-                                                        type="button">Korean</button>
-                                                    <button class="vn-setting-combo-option" data-value="pt"
-                                                        type="button">Portuguese</button>
-                                                    <button class="vn-setting-combo-option" data-value="ru"
-                                                        type="button">Russian</button>
-                                                    <button class="vn-setting-combo-option" data-value="tr"
-                                                        type="button">Turkish</button>
-                                                    <button class="vn-setting-combo-option" data-value="vi"
-                                                        type="button">Vietnamese</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="vn-setting-item">
-                                            <div class="vn-setting-copy">
-                                                <div class="vn-setting-title">Whisper Model</div>
-                                                <div class="vn-setting-help">Small models are faster, large are more
-                                                    accurate.</div>
-                                            </div>
-                                            <div class="vn-setting-combo" id="vn-setting-model-combo">
-                                                <button aria-expanded="false" aria-haspopup="listbox"
-                                                    class="vn-setting-combo-button" id="vn-setting-model-button"
-                                                    type="button">
-                                                    <span id="vn-setting-model-value">Tiny</span>
-                                                    <span class="material-symbols-outlined">expand_more</span>
-                                                </button>
-                                                <div aria-label="Whisper model" class="vn-setting-combo-menu"
-                                                    id="vn-setting-model-menu" role="listbox">
-                                                    <button class="vn-setting-combo-option is-selected"
-                                                        data-value="tiny" type="button">Tiny</button>
-                                                    <button class="vn-setting-combo-option" data-value="base"
-                                                        type="button">Base</button>
-                                                    <button class="vn-setting-combo-option" data-value="small"
-                                                        type="button">Small</button>
-                                                    <button class="vn-setting-combo-option" data-value="medium"
-                                                        type="button">Medium</button>
-                                                    <button class="vn-setting-combo-option" data-value="large-v3"
-                                                        type="button">Large</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="vn-setting-item">
-                                            <div class="vn-setting-copy">
-                                                <div class="vn-setting-title">Action On Close</div>
-                                                <div class="vn-setting-help">Choose what happens when the close button
-                                                    is clicked.</div>
-                                            </div>
-                                            <div class="vn-setting-combo" id="vn-setting-close-action-combo">
-                                                <button aria-expanded="false" aria-haspopup="listbox"
-                                                    class="vn-setting-combo-button" id="vn-setting-close-action-button"
-                                                    type="button">
-                                                    <span id="vn-setting-close-action-value">Keep system tray</span>
-                                                    <span class="material-symbols-outlined">expand_more</span>
-                                                </button>
-                                                <div aria-label="Action on close" class="vn-setting-combo-menu"
-                                                    id="vn-setting-close-action-menu" role="listbox">
-                                                    <button class="vn-setting-combo-option is-selected"
-                                                        data-value="tray" type="button">Keep system tray</button>
-                                                    <button class="vn-setting-combo-option" data-value="close"
-                                                        type="button">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="vn-setting-item">
-                                            <div class="vn-setting-copy">
-                                                <div class="vn-setting-title">Flyout Hotkey</div>
-                                                <div class="vn-setting-help">Shortcut used to open VoiceNote flyout.
-                                                </div>
-                                            </div>
-                                            <div class="vn-setting-field">
-                                                <span>Ctrl + Space</span>
-                                            </div>
-                                        </div>
-                                        <label class="vn-setting-item vn-setting-toggle" for="vn-setting-keep-on-top">
-                                            <div class="vn-setting-copy">
-                                                <div class="vn-setting-title">Keep Window On Top</div>
-                                                <div class="vn-setting-help">Keep VoiceNote above other windows.</div>
-                                            </div>
-                                            <span class="vn-setting-switch">
-                                                <input id="vn-setting-keep-on-top" type="checkbox" />
-                                                <span aria-hidden="true" class="vn-setting-switch-slider"></span>
-                                            </span>
-                                        </label>
-                                        <label class="vn-setting-item vn-setting-toggle"
-                                            for="vn-setting-start-at-login">
-                                            <div class="vn-setting-copy">
-                                                <div class="vn-setting-title">Start VoiceNote At Login</div>
-                                                <div class="vn-setting-help">Launch VoiceNote when Windows starts.</div>
-                                            </div>
-                                            <span class="vn-setting-switch">
-                                                <input checked="" id="vn-setting-start-at-login" type="checkbox" />
-                                                <span aria-hidden="true" class="vn-setting-switch-slider"></span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </aside>
-                                <div class="vn-settings-overlay" id="vn-settings-overlay"></div>
-                                <section class="vn-main-panel">
-                                    <button class="vn-gear-button" id="vn-app-settings-button" type="button">
-                                        <span class="material-symbols-outlined">settings</span>
-                                    </button>
-                                    <header class="vn-mic-header">
-                                        <button class="vn-mic-button" id="vn-preview-mic-button" type="button">
-                                            <span class="material-symbols-outlined vn-mic-icon vn-mic-idle">mic</span>
-                                            <span
-                                                class="material-symbols-outlined vn-mic-icon vn-mic-listening">stop</span>
-                                            <span aria-hidden="true" class="vn-mic-spinner">
-                                                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                            </span>
-                                        </button>
-                                        <p class="vn-recording-label" id="vn-preview-recording-label">Tap to record</p>
-                                    </header>
-                                    <section class="vn-history-section">
-                                        <div class="vn-history-header">
-                                            <span class="material-symbols-outlined">history</span>
-                                            <span>History</span>
-                                        </div>
-                                        <div class="vn-history-list" id="vn-history-list">
-                                            <article class="vn-history-card is-recent">
-                                                <div class="vn-history-card-top">
-                                                    <span class="vn-history-time">Just now</span>
-                                                    <span class="vn-history-actions">
-                                                        <button aria-label="Edit entry"
-                                                            class="vn-history-action vn-history-action--edit"
-                                                            title="Edit entry" type="button">
-                                                            <span class="material-symbols-outlined">edit</span>
-                                                        </button>
-                                                        <button aria-label="Delete entry"
-                                                            class="vn-history-action vn-history-action--delete"
-                                                            title="Delete entry" type="button">
-                                                            <span class="material-symbols-outlined">delete</span>
-                                                        </button>
-                                                        <button aria-label="Copy entry"
-                                                            class="vn-history-action vn-history-action--copy"
-                                                            title="Copy entry" type="button">
-                                                            <span class="material-symbols-outlined">content_copy</span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                                <p class="vn-history-text">Hey Josh, thanks for your email today. I
-                                                    reviewed the proposal and will send feedback tomorrow.</p>
-                                            </article>
-                                            <article class="vn-history-card">
-                                                <div class="vn-history-card-top">
-                                                    <span class="vn-history-time">2 mins ago</span>
-                                                    <span class="vn-history-actions">
-                                                        <button aria-label="Edit entry"
-                                                            class="vn-history-action vn-history-action--edit"
-                                                            title="Edit entry" type="button">
-                                                            <span class="material-symbols-outlined">edit</span>
-                                                        </button>
-                                                        <button aria-label="Delete entry"
-                                                            class="vn-history-action vn-history-action--delete"
-                                                            title="Delete entry" type="button">
-                                                            <span class="material-symbols-outlined">delete</span>
-                                                        </button>
-                                                        <button aria-label="Copy entry"
-                                                            class="vn-history-action vn-history-action--copy"
-                                                            title="Copy entry" type="button">
-                                                            <span class="material-symbols-outlined">content_copy</span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                                <p class="vn-history-text">Meeting notes: launch is on track, design
-                                                    review moved to Thursday, and Sarah will share final assets.</p>
-                                            </article>
-                                            <article class="vn-history-card">
-                                                <div class="vn-history-card-top">
-                                                    <span class="vn-history-time">5 mins ago</span>
-                                                    <span class="vn-history-actions">
-                                                        <button aria-label="Edit entry"
-                                                            class="vn-history-action vn-history-action--edit"
-                                                            title="Edit entry" type="button">
-                                                            <span class="material-symbols-outlined">edit</span>
-                                                        </button>
-                                                        <button aria-label="Delete entry"
-                                                            class="vn-history-action vn-history-action--delete"
-                                                            title="Delete entry" type="button">
-                                                            <span class="material-symbols-outlined">delete</span>
-                                                        </button>
-                                                        <button aria-label="Copy entry"
-                                                            class="vn-history-action vn-history-action--copy"
-                                                            title="Copy entry" type="button">
-                                                            <span class="material-symbols-outlined">content_copy</span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                                <p class="vn-history-text">Hi team, quick update: QA passed, release is
-                                                    scheduled for Friday, and docs are almost finished.</p>
-                                            </article>
-                                        </div>
-                                    </section>
-                                </section>
+                                </div>
                             </div>
                         </div>
-                        <div class="vn-flyout-frame">
-                            <div class="vn-flyout-pill">
-                                <button class="vn-fly-btn vn-fly-btn-close" id="vn-preview-flyout-discard"
-                                    type="button">
-                                    <span class="material-symbols-outlined">close</span>
-                                </button>
-                                <div class="vn-fly-wave">
-                                    <span class="vn-fly-wave-bar"></span><span class="vn-fly-wave-bar"></span><span
-                                        class="vn-fly-wave-bar"></span><span class="vn-fly-wave-bar"></span><span
-                                        class="vn-fly-wave-bar"></span><span class="vn-fly-wave-bar"></span><span
-                                        class="vn-fly-wave-bar"></span><span class="vn-fly-wave-bar"></span><span
-                                        class="vn-fly-wave-bar"></span><span class="vn-fly-wave-bar"></span><span
-                                        class="vn-fly-wave-bar"></span><span class="vn-fly-wave-bar"></span>
-                                </div>
-                                <div class="vn-fly-timer" id="vn-preview-flyout-timer">0:00</div>
-                                <div aria-hidden="true" class="vn-fly-spinner">
-                                    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                                <button class="vn-fly-btn vn-fly-btn-finish" id="vn-preview-flyout-finish"
-                                    type="button">
-                                    <span class="material-symbols-outlined">check</span>
-                                </button>
+
+                        <!-- Scrollable steps (right) -->
+                        <div class="vn-scrolly-steps">
+                            <!-- App: Idle -->
+                            <div class="vn-scrolly-step" data-scrolly-target="app" data-scrolly-state="idle" data-scrolly-weight="5">
+                                <aside class="vn-context-panel">
+                                    <div class="vn-context-item is-active" data-target="app" data-state="idle">
+                                        <h3 class="vn-context-title">Your Voice, Your Notes</h3>
+                                        <p class="vn-context-text">Ready to capture a thought? Tap the microphone and start dictating notes, emails, and messages instantly.</p>
+                                    </div>
+                                </aside>
+                            </div>
+
+                            <!-- App: Listening -->
+                            <div class="vn-scrolly-step" data-scrolly-target="app" data-scrolly-state="listening" data-scrolly-weight="5">
+                                <aside class="vn-context-panel">
+                                    <div class="vn-context-item" data-target="app" data-state="listening">
+                                        <span class="vn-context-tag">
+                                            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                            Listening
+                                        </span>
+                                        <h3 class="vn-context-title text-primary">Go Ahead, Speak Naturally</h3>
+                                        <p class="vn-context-text">VoiceNote captures your words in real time so you can draft complete notes or emails without typing.</p>
+                                    </div>
+                                </aside>
+                            </div>
+
+                            <!-- App: Transcribing -->
+                            <div class="vn-scrolly-step" data-scrolly-target="app" data-scrolly-state="transcribing" data-scrolly-weight="5">
+                                <aside class="vn-context-panel">
+                                    <div class="vn-context-item" data-target="app" data-state="transcribing">
+                                        <span class="vn-context-tag">
+                                            <span
+                                                class="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                                            Processing
+                                        </span>
+                                        <h3 class="vn-context-title">Turning Speech into Text</h3>
+                                        <p class="vn-context-text">Our local AI models transcribe your recording quickly and accurately, ready to paste.</p>
+                                    </div>
+                                </aside>
                             </div>
                         </div>
                     </div>
 
-                    <aside class="vn-context-panel">
-                        <!-- Controls - Moved to Top -->
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <button class="vn-demo-toggle is-active" id="vn-demo-app-mode">
-                                <span class="material-symbols-outlined text-[18px]">desktop_windows</span>
-                                App Mode
-                            </button>
-                            <button class="vn-demo-toggle" id="vn-demo-flyout-mode">
-                                <span class="material-symbols-outlined text-[18px]">filter_none</span>
-                                Flyout Mode
-                            </button>
+                    <!-- ═══ Flyout Scrollytelling Section ═══ -->
+                    <div class="vn-scrolly-section vn-scrolly-section--flyout" data-scrolly-section="flyout" data-scrolly-tail="0">
+                        <!-- Sticky flyout preview (right) -->
+                        <div class="vn-scrolly-sticky vn-showcase-visual vn-showcase-visual--flyout">
+                            <div class="vn-scrolly-content">
+                                <div class="vn-flyout-showcase" data-state="idle" id="vn-flyout-preview">
+                                <div class="vn-flyout-frame">
+                                    <div class="vn-flyout-pill">
+                                        <span class="vn-fly-btn vn-fly-btn-close" aria-hidden="true">
+                                            <span class="material-symbols-outlined">close</span>
+                                        </span>
+                                        <div class="vn-fly-wave">
+                                            <span class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span
+                                                class="vn-fly-wave-bar"></span><span class="vn-fly-wave-bar"></span>
+                                        </div>
+                                        <div class="vn-fly-timer" id="vn-preview-flyout-timer">0:00</div>
+                                        <div aria-hidden="true" class="vn-fly-spinner">
+                                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                                        </div>
+                                        <span class="vn-fly-btn vn-fly-btn-finish" aria-hidden="true">
+                                            <span class="material-symbols-outlined">check</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="vn-taskbar-mockup" aria-hidden="true">
+                                    <div class="vn-taskbar-item">
+                                        <span
+                                            class="material-symbols-outlined vn-taskbar-icon start-icon">grid_view</span>
+                                    </div>
+                                    <div class="vn-taskbar-item">
+                                        <span class="material-symbols-outlined vn-taskbar-icon">search</span>
+                                    </div>
+                                    <div class="vn-taskbar-item">
+                                        <span class="material-symbols-outlined vn-taskbar-icon">mail</span>
+                                    </div>
+                                    <div class="vn-taskbar-item">
+                                        <span class="material-symbols-outlined vn-taskbar-icon">folder</span>
+                                    </div>
+                                    <div class="vn-taskbar-item">
+                                        <span class="material-symbols-outlined vn-taskbar-icon">public</span>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                         </div>
 
-                        <div class="vn-context-content-wrapper">
-                            <!-- App: Idle -->
-                            <div class="vn-context-item is-active" data-context="app" data-state="idle">
-                                <h3 class="vn-context-title">Your Voice,<br>Your Notes</h3>
-                                <p class="vn-context-text">Ready to capture a thought? Click the microphone and start
-                                    dictating notes, emails, and messages instantly.</p>
-                            </div>
-
-                            <!-- App: Listening -->
-                            <div class="vn-context-item" data-context="app" data-state="listening">
-                                <span class="vn-context-tag">
-                                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                                    Listening
-                                </span>
-                                <h3 class="vn-context-title text-primary">Go Ahead,<br>Speak Naturally</h3>
-                                <p class="vn-context-text">VoiceNote captures your words in real time so you can draft
-                                    complete notes or emails without typing.</p>
-                            </div>
-
-                            <!-- App: Transcribing -->
-                            <div class="vn-context-item" data-context="app" data-state="transcribing">
-                                <span class="vn-context-tag">
-                                    <span
-                                        class="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
-                                    Processing
-                                </span>
-                                <h3 class="vn-context-title">Turning Speech<br>into Text</h3>
-                                <p class="vn-context-text">Our local AI models transcribe your recording quickly and
-                                    accurately, ready to paste.</p>
-                            </div>
-
-                            <!-- App: Settings -->
-                            <div class="vn-context-item" data-context="app" data-state="settings">
-                                <h3 class="vn-context-title">Set It Up<br>Your Way</h3>
-                                <p class="vn-context-text">Choose your model, language, and behavior settings to match
-                                    how you work.</p>
+                        <!-- Scrollable steps (left) -->
+                        <div class="vn-scrolly-steps">
+                            <!-- Flyout: Idle -->
+                            <div class="vn-scrolly-step" data-scrolly-target="flyout" data-scrolly-state="idle" data-scrolly-weight="5">
+                                <aside class="vn-context-panel">
+                                    <div class="vn-context-item is-active" data-target="flyout" data-state="idle">
+                                        <span class="vn-context-tag">Example Hotkey: Ctrl + Space</span>
+                                        <h3 class="vn-context-title">Quick Capture Anywhere</h3>
+                                        <p class="vn-context-text">Press a global hotkey to summon VoiceNote's flyout over any window, ready for instant dictation.</p>
+                                    </div>
+                                </aside>
                             </div>
 
                             <!-- Flyout: Listening -->
-                            <div class="vn-context-item" data-context="flyout" data-state="listening">
-                                <span class="vn-context-tag">Example Hotkey: Ctrl + Space</span>
-                                <h3 class="vn-context-title">Quick Capture<br>Anywhere</h3>
-                                <p class="vn-context-text">Open VoiceNote's flyout over any window for instant
-                                    dictation without breaking your focus.</p>
+                            <div class="vn-scrolly-step" data-scrolly-target="flyout" data-scrolly-state="listening" data-scrolly-weight="5">
+                                <aside class="vn-context-panel">
+                                    <div class="vn-context-item" data-target="flyout" data-state="listening">
+                                        <span class="vn-context-tag">
+                                            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                            Recording
+                                        </span>
+                                        <h3 class="vn-context-title">Speak Your Mind</h3>
+                                        <p class="vn-context-text">The flyout records your voice with a live waveform and timer, without breaking your focus.</p>
+                                    </div>
+                                </aside>
                             </div>
 
                             <!-- Flyout: Transcribing -->
-                            <div class="vn-context-item" data-context="flyout" data-state="transcribing">
-                                <h3 class="vn-context-title">Instant<br>Insert</h3>
-                                <p class="vn-context-text">Your transcription appears exactly where your cursor is in
-                                    the active app.</p>
+                            <div class="vn-scrolly-step" data-scrolly-target="flyout" data-scrolly-state="transcribing" data-scrolly-weight="5">
+                                <aside class="vn-context-panel">
+                                    <div class="vn-context-item" data-target="flyout" data-state="transcribing">
+                                        <h3 class="vn-context-title">Instant Insert</h3>
+                                        <p class="vn-context-text">Your transcription appears exactly where your cursor is in the active app.</p>
+                                    </div>
+                                </aside>
                             </div>
                         </div>
-                    </aside>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
     </section>
     <section class="py-24 relative overflow-hidden" id="features">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1712,12 +1958,12 @@
                     </div>
                     <div
                         class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-300">
-                        <span class="material-symbols-outlined text-2xl">keyboard</span>
+                        <span class="material-symbols-outlined text-2xl">memory</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Global Shortcut</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">CUDA-Accelerated Transcription</h3>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-                        Open VoiceNote from anywhere in Windows 11 with a customizable hotkey and start dictating right
-                        away.
+                        VoiceNote uses NVIDIA CUDA drivers on supported GPUs to speed up Whisper transcription and cut
+                        down processing time.
                     </p>
                 </div>
                 <div class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
@@ -1727,12 +1973,12 @@
                     </div>
                     <div
                         class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-300">
-                        <span class="material-symbols-outlined text-2xl">graphic_eq</span>
+                        <span class="material-symbols-outlined text-2xl">shield_lock</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Live Waveform</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Local-Only Processing</h3>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-                        Real-time visual feedback makes it clear when VoiceNote is listening, so you can speak with
-                        confidence.
+                        Your recordings and transcripts stay on your machine. VoiceNote is built for private, local AI
+                        transcription without sending audio to cloud services.
                     </p>
                 </div>
                 <div class="group bg-white dark:bg-surface-dark p-8 rounded-2xl border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary transition-colors shadow-sm hover:shadow-glow-sm relative overflow-hidden"
@@ -1742,12 +1988,12 @@
                     </div>
                     <div
                         class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-300">
-                        <span class="material-symbols-outlined text-2xl">flash_on</span>
+                        <span class="material-symbols-outlined text-2xl">tune</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Instant Insert</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Adaptive Model Selection</h3>
                     <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-                        Your transcribed text is pasted directly into your active window. Email clients, chat apps,
-                        docs, and forms all work instantly.
+                        VoiceNote selects the best transcription setup for your hardware, balancing speed and accuracy
+                        for smooth day-to-day dictation.
                     </p>
                 </div>
             </div>
@@ -1900,6 +2146,54 @@
             featuresSection.parentElement.insertBefore(workflowSection, featuresSection);
         }
 
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const mobileNavPanel = document.getElementById('mobile-nav-panel');
+        const mobileNavIcon = mobileNavToggle?.querySelector('[data-mobile-nav-icon]');
+        const mobileNavLinks = Array.from(document.querySelectorAll('[data-mobile-nav-link]'));
+
+        if (mobileNavToggle && mobileNavPanel) {
+            const closeMobileNav = () => {
+                mobileNavPanel.classList.add('hidden');
+                mobileNavToggle.setAttribute('aria-expanded', 'false');
+                if (mobileNavIcon) {
+                    mobileNavIcon.textContent = 'menu';
+                }
+            };
+
+            const openMobileNav = () => {
+                mobileNavPanel.classList.remove('hidden');
+                mobileNavToggle.setAttribute('aria-expanded', 'true');
+                if (mobileNavIcon) {
+                    mobileNavIcon.textContent = 'close';
+                }
+            };
+
+            mobileNavToggle.addEventListener('click', () => {
+                const isOpen = mobileNavToggle.getAttribute('aria-expanded') === 'true';
+                if (isOpen) {
+                    closeMobileNav();
+                    return;
+                }
+                openMobileNav();
+            });
+
+            for (const link of mobileNavLinks) {
+                link.addEventListener('click', closeMobileNav);
+            }
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    closeMobileNav();
+                }
+            });
+
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeMobileNav();
+                }
+            });
+        }
+
         const downloadBtn = document.getElementById('download-windows-btn');
         if (downloadBtn) {
             downloadBtn.addEventListener('click', async (event) => {
@@ -1936,7 +2230,7 @@
                     showRevealElement(element);
                 }
             } else {
-                const revealObserver = new IntersectionObserver((entries, observer) => {
+                const handleRevealEntries = (entries, observer) => {
                     for (const entry of entries) {
                         if (!entry.isIntersecting) {
                             continue;
@@ -1944,16 +2238,28 @@
                         showRevealElement(entry.target);
                         observer.unobserve(entry.target);
                     }
-                }, {
+                };
+
+                const revealObserver = new IntersectionObserver(handleRevealEntries, {
                     threshold: 0.16,
                     rootMargin: '0px 0px -8% 0px',
+                });
+                const earlyRevealObserver = new IntersectionObserver(handleRevealEntries, {
+                    threshold: 0.01,
+                    rootMargin: '0px 0px 28% 0px',
                 });
 
                 const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
                 for (const element of revealElements) {
+                    const shouldRevealEarly = element.dataset.revealEarly === 'true';
+                    const eagerFactor = shouldRevealEarly ? 1.2 : 0.9;
                     const rect = element.getBoundingClientRect();
-                    if (rect.top <= viewportHeight * 0.9) {
+                    if (rect.top <= viewportHeight * eagerFactor) {
                         showRevealElement(element);
+                        continue;
+                    }
+                    if (shouldRevealEarly) {
+                        earlyRevealObserver.observe(element);
                         continue;
                     }
                     revealObserver.observe(element);
@@ -1961,481 +2267,407 @@
             }
         }
 
-        const previewRoot = document.getElementById('vn-realistic-preview');
-        if (previewRoot) {
-            const previewRecordingLabel = document.getElementById('vn-preview-recording-label');
-            const previewFlyoutTimer = document.getElementById('vn-preview-flyout-timer');
-            const previewMicButton = document.getElementById('vn-preview-mic-button');
-            const previewFlyoutFinish = document.getElementById('vn-preview-flyout-finish');
-            const previewFlyoutDiscard = document.getElementById('vn-preview-flyout-discard');
-            const previewSettingsButton = document.getElementById('vn-app-settings-button');
-            const previewSettingsClose = document.getElementById('vn-settings-close-button');
-            const previewSettingsOverlay = document.getElementById('vn-settings-overlay');
-            let previewTimerId = null;
-            let previewElapsedSeconds = 0;
-            let previewTranscribingTimeoutId = null;
-            const previewCombos = [];
-            const previewWaveBars = Array.from(previewRoot.querySelectorAll('.vn-fly-wave-bar'));
-            const previewSpinnerRoots = Array.from(previewRoot.querySelectorAll('.vn-mic-spinner, .vn-fly-spinner'));
-            const clamp01 = (value) => Math.max(0, Math.min(1, Number(value) || 0));
+        // ── Shared helpers ──
 
-            const createPreviewWaveformController = (bars) => {
-                const DOT_COUNT = 12;
-                const DOT_BASE_HEIGHT = 2;
-                const DOT_MAX_HEIGHT = 14;
-                const center = (DOT_COUNT - 1) * 0.5;
-                const barLevels = new Array(DOT_COUNT).fill(0);
-                let mode = 'idle';
-                let phase = 0;
-                let energy = 0;
-                let lastAtMs = performance.now();
+        const activateShowcaseContext = (target, state) => {
+            const items = Array.from(document.querySelectorAll(`.vn-context-item[data-target="${target}"]`));
+            for (const item of items) {
+                item.classList.toggle('is-active', item.dataset.state === state);
+            }
+        };
 
-                const setMode = (nextMode) => {
-                    mode = ['listening', 'transcribing'].includes(nextMode) ? nextMode : 'idle';
-                    if (mode === 'transcribing') {
-                        phase = 0;
-                        energy = 0;
-                        for (let i = 0; i < DOT_COUNT; i += 1) {
-                            barLevels[i] = 0;
-                        }
-                    }
-                };
+        const formatShowcaseTime = (seconds) => {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${String(secs).padStart(2, '0')}`;
+        };
 
-                const render = () => {
-                    if (!bars.length) {
-                        return;
-                    }
-                    const idleColor = mode === 'transcribing'
-                        ? [219, 228, 239, 0.62]
-                        : [174, 174, 174, 0.56];
-                    const activeColor = mode === 'transcribing'
-                        ? [219, 228, 239, 0.98]
-                        : [248, 86, 86, 0.95];
+        const clamp01 = (value) => Math.max(0, Math.min(1, Number(value) || 0));
 
-                    for (let i = 0; i < Math.min(DOT_COUNT, bars.length); i += 1) {
-                        if (mode === 'transcribing') {
-                            bars[i].style.height = `${DOT_BASE_HEIGHT}px`;
-                            bars[i].style.backgroundColor = 'rgba(219, 228, 239, 0.95)';
-                            continue;
-                        }
-                        const level = clamp01(barLevels[i]);
-                        const height = Math.round(DOT_BASE_HEIGHT + (level * (DOT_MAX_HEIGHT - DOT_BASE_HEIGHT)));
-                        const activity = mode === 'idle'
-                            ? 0
-                            : clamp01((level * 0.82) + (energy * 0.35));
-                        const r = Math.round(idleColor[0] + ((activeColor[0] - idleColor[0]) * activity));
-                        const g = Math.round(idleColor[1] + ((activeColor[1] - idleColor[1]) * activity));
-                        const b = Math.round(idleColor[2] + ((activeColor[2] - idleColor[2]) * activity));
-                        const a = idleColor[3] + ((activeColor[3] - idleColor[3]) * activity);
-                        bars[i].style.height = `${Math.max(DOT_BASE_HEIGHT, Math.min(DOT_MAX_HEIGHT, height))}px`;
-                        bars[i].style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a.toFixed(3)})`;
-                    }
-                };
+        const createShowcaseWaveformController = (bars) => {
+            const DOT_COUNT = 12;
+            const DOT_BASE_HEIGHT = 2;
+            const DOT_MAX_HEIGHT = 14;
+            const center = (DOT_COUNT - 1) * 0.5;
+            const barLevels = new Array(DOT_COUNT).fill(0);
+            let mode = 'idle';
+            let phase = 0;
+            let energy = 0;
+            let lastAtMs = performance.now();
 
-                const frame = (nowMs) => {
-                    const dtScale = Math.max(0.45, Math.min(2.0, (nowMs - lastAtMs) / 16.666));
-                    lastAtMs = nowMs;
-                    const nowSec = nowMs / 1000;
-
-                    if (mode === 'transcribing') {
-                        energy = 0;
-                        render();
-                        return;
-                    }
-
-                    if (mode === 'listening') {
-                        const syllable = Math.max(0, Math.sin((nowSec * 10.8) + Math.sin(nowSec * 1.4)));
-                        const phrase = 0.52 + (Math.sin((nowSec * 1.65) + 0.8) * 0.33);
-                        const target = clamp01((0.16 + (syllable * 0.56) + (phrase * 0.34)) + ((Math.random() - 0.5) * 0.05));
-                        energy += (target - energy) * (0.15 * dtScale);
-                        phase += (0.13 + (energy * 0.14)) * dtScale;
-                    } else {
-                        energy += (0 - energy) * (0.13 * dtScale);
-                    }
-
+            const setMode = (nextMode) => {
+                mode = ['listening', 'transcribing'].includes(nextMode) ? nextMode : 'idle';
+                if (mode === 'transcribing') {
+                    phase = 0;
+                    energy = 0;
                     for (let i = 0; i < DOT_COUNT; i += 1) {
-                        if (mode === 'idle') {
-                            barLevels[i] += (0 - barLevels[i]) * (0.22 * dtScale);
-                            continue;
-                        }
-                        const centerWeight = 1.0 - Math.min(1.0, Math.abs(i - center) / (center + 0.6));
-                        const waveA = Math.sin((i * 0.92) - phase);
-                        const waveB = Math.sin((i * 1.57) - (phase * 0.61) + 1.35);
-                        const travel = ((waveA * 0.68) + (waveB * 0.32) + 1.0) * 0.5;
-                        const floor = 0.06 + (centerWeight * 0.10);
-                        const targetLevel = clamp01(floor + (travel * energy * (0.56 + (centerWeight * 0.44))));
-                        barLevels[i] += (targetLevel - barLevels[i]) * (0.24 * dtScale);
-                    }
-
-                    render();
-                };
-
-                render();
-                return { setMode, frame };
-            };
-
-            const createPreviewSpinnerController = (spinnerRoot) => {
-                const spokes = Array.from(spinnerRoot.querySelectorAll('span'));
-                const SPOKE_COUNT = 8;
-                const PERIOD_MS = 900;
-                const MIN_ALPHA = 0.26;
-                const MAX_ALPHA = 0.98;
-                const SPINNER_RGB = [219, 228, 239];
-                let active = false;
-                let startedAtMs = 0;
-
-                const setSpoke = (spoke, alpha) => {
-                    const clamped = clamp01(alpha);
-                    const glow = clamp01((clamped - MIN_ALPHA) / (MAX_ALPHA - MIN_ALPHA));
-                    spoke.style.backgroundColor = `rgba(${SPINNER_RGB[0]}, ${SPINNER_RGB[1]}, ${SPINNER_RGB[2]}, ${clamped.toFixed(3)})`;
-                    spoke.style.boxShadow = glow > 0.02
-                        ? `0 0 ${Math.round(6 + (glow * 3))}px rgba(${SPINNER_RGB[0]}, ${SPINNER_RGB[1]}, ${SPINNER_RGB[2]}, ${(0.10 + (glow * 0.24)).toFixed(3)})`
-                        : 'none';
-                };
-
-                const setActive = (enabled) => {
-                    const nextActive = !!enabled;
-                    if (nextActive === active) {
-                        return;
-                    }
-                    active = nextActive;
-                    startedAtMs = nextActive ? performance.now() : 0;
-                    if (!nextActive) {
-                        for (const spoke of spokes) {
-                            setSpoke(spoke, MIN_ALPHA * 0.9);
-                        }
-                    }
-                };
-
-                const frame = (nowMs) => {
-                    if (!active || startedAtMs <= 0 || !spokes.length) {
-                        return;
-                    }
-                    const progress = ((nowMs - startedAtMs) % PERIOD_MS) / PERIOD_MS;
-                    const head = progress * SPOKE_COUNT;
-                    for (let i = 0; i < spokes.length; i += 1) {
-                        const trailingDistance = (head - i + SPOKE_COUNT) % SPOKE_COUNT;
-                        const normalized = 1 - (trailingDistance / (SPOKE_COUNT - 1));
-                        const eased = normalized <= 0
-                            ? 0
-                            : (normalized * normalized * (3 - (2 * normalized)));
-                        const alpha = MIN_ALPHA + ((MAX_ALPHA - MIN_ALPHA) * eased);
-                        setSpoke(spokes[i], alpha);
-                    }
-                };
-
-                setActive(false);
-                return { setActive, frame };
-            };
-
-            const previewWaveformController = createPreviewWaveformController(previewWaveBars);
-            const previewSpinnerControllers = previewSpinnerRoots.map((spinnerRoot) => (
-                createPreviewSpinnerController(spinnerRoot)
-            ));
-
-            const syncPreviewVisualAnimationState = (state, context) => {
-                const waveformMode = context === 'flyout'
-                    ? (state === 'listening' ? 'listening' : (state === 'transcribing' ? 'transcribing' : 'idle'))
-                    : 'idle';
-                previewWaveformController.setMode(waveformMode);
-                const spinnerActive = state === 'transcribing';
-                for (const controller of previewSpinnerControllers) {
-                    controller.setActive(spinnerActive);
-                }
-            };
-
-            const formatPreviewTime = (seconds) => {
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                return `${mins}:${String(secs).padStart(2, '0')}`;
-            };
-
-            const stopPreviewClock = () => {
-                if (previewTimerId) {
-                    clearInterval(previewTimerId);
-                    previewTimerId = null;
-                }
-            };
-
-            const clearPreviewTranscribingTimeout = () => {
-                if (previewTranscribingTimeoutId) {
-                    clearTimeout(previewTranscribingTimeoutId);
-                    previewTranscribingTimeoutId = null;
-                }
-            };
-
-            const closeAllPreviewCombos = (exceptCombo = null) => {
-                for (const combo of previewCombos) {
-                    if (combo === exceptCombo) {
-                        continue;
-                    }
-                    combo.classList.remove('open');
-                    const button = combo.querySelector('.vn-setting-combo-button');
-                    if (button) {
-                        button.setAttribute('aria-expanded', 'false');
+                        barLevels[i] = 0;
                     }
                 }
             };
 
-            const setupPreviewCombo = ({ comboId, buttonId, valueId, menuId }) => {
-                const combo = document.getElementById(comboId);
-                const button = document.getElementById(buttonId);
-                const value = document.getElementById(valueId);
-                const menu = document.getElementById(menuId);
-                if (!combo || !button || !value || !menu) {
+            const render = () => {
+                if (!bars.length) {
                     return;
                 }
-                const options = Array.from(menu.querySelectorAll('.vn-setting-combo-option'));
+                const idleColor = mode === 'transcribing'
+                    ? [219, 228, 239, 0.62]
+                    : [174, 174, 174, 0.56];
+                const activeColor = mode === 'transcribing'
+                    ? [219, 228, 239, 0.98]
+                    : [248, 86, 86, 0.95];
 
-                const selectOption = (option) => {
-                    if (!option) {
-                        return;
+                for (let i = 0; i < Math.min(DOT_COUNT, bars.length); i += 1) {
+                    if (mode === 'transcribing') {
+                        bars[i].style.height = `${DOT_BASE_HEIGHT}px`;
+                        bars[i].style.backgroundColor = 'rgba(219, 228, 239, 0.95)';
+                        continue;
                     }
-                    for (const item of options) {
-                        item.classList.toggle('is-selected', item === option);
-                    }
-                    value.textContent = option.textContent.trim();
-                    combo.classList.remove('open');
-                    button.setAttribute('aria-expanded', 'false');
-                };
-
-                button.addEventListener('click', () => {
-                    const willOpen = !combo.classList.contains('open');
-                    closeAllPreviewCombos(combo);
-                    combo.classList.toggle('open', willOpen);
-                    button.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-                });
-
-                for (const option of options) {
-                    option.addEventListener('click', () => {
-                        selectOption(option);
-                    });
-                }
-
-                previewCombos.push(combo);
-            };
-
-            const setPreviewSettingsOpen = (open) => {
-                previewRoot.classList.toggle('is-settings-open', !!open);
-                if (!open) {
-                    closeAllPreviewCombos();
+                    const level = clamp01(barLevels[i]);
+                    const height = Math.round(DOT_BASE_HEIGHT + (level * (DOT_MAX_HEIGHT - DOT_BASE_HEIGHT)));
+                    const activity = mode === 'idle'
+                        ? 0
+                        : clamp01((level * 0.82) + (energy * 0.35));
+                    const r = Math.round(idleColor[0] + ((activeColor[0] - idleColor[0]) * activity));
+                    const g = Math.round(idleColor[1] + ((activeColor[1] - idleColor[1]) * activity));
+                    const b = Math.round(idleColor[2] + ((activeColor[2] - idleColor[2]) * activity));
+                    const a = idleColor[3] + ((activeColor[3] - idleColor[3]) * activity);
+                    bars[i].style.height = `${Math.max(DOT_BASE_HEIGHT, Math.min(DOT_MAX_HEIGHT, height))}px`;
+                    bars[i].style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a.toFixed(3)})`;
                 }
             };
 
-            const startPreviewClock = () => {
-                stopPreviewClock();
-                previewElapsedSeconds = 0;
-                const initialValue = formatPreviewTime(previewElapsedSeconds);
-                if (previewRecordingLabel) {
-                    previewRecordingLabel.textContent = initialValue;
+            const frame = (nowMs) => {
+                const dtScale = Math.max(0.45, Math.min(2.0, (nowMs - lastAtMs) / 16.666));
+                lastAtMs = nowMs;
+                const nowSec = nowMs / 1000;
+
+                if (mode === 'transcribing') {
+                    energy = 0;
+                    render();
+                    return;
                 }
-                if (previewFlyoutTimer) {
-                    previewFlyoutTimer.textContent = initialValue;
+
+                if (mode === 'listening') {
+                    const syllable = Math.max(0, Math.sin((nowSec * 10.8) + Math.sin(nowSec * 1.4)));
+                    const phrase = 0.52 + (Math.sin((nowSec * 1.65) + 0.8) * 0.33);
+                    const target = clamp01((0.16 + (syllable * 0.56) + (phrase * 0.34)) + ((Math.random() - 0.5) * 0.05));
+                    energy += (target - energy) * (0.15 * dtScale);
+                    phase += (0.13 + (energy * 0.14)) * dtScale;
+                } else {
+                    energy += (0 - energy) * (0.13 * dtScale);
                 }
-                previewTimerId = window.setInterval(() => {
-                    previewElapsedSeconds += 1;
-                    const value = formatPreviewTime(previewElapsedSeconds);
-                    if (previewRecordingLabel) {
-                        previewRecordingLabel.textContent = value;
+
+                for (let i = 0; i < DOT_COUNT; i += 1) {
+                    if (mode === 'idle') {
+                        barLevels[i] += (0 - barLevels[i]) * (0.22 * dtScale);
+                        continue;
                     }
-                    if (previewFlyoutTimer) {
-                        previewFlyoutTimer.textContent = value;
+                    const centerWeight = 1.0 - Math.min(1.0, Math.abs(i - center) / (center + 0.6));
+                    const waveA = Math.sin((i * 0.92) - phase);
+                    const waveB = Math.sin((i * 1.57) - (phase * 0.61) + 1.35);
+                    const travel = ((waveA * 0.68) + (waveB * 0.32) + 1.0) * 0.5;
+                    const floor = 0.06 + (centerWeight * 0.10);
+                    const targetLevel = clamp01(floor + (travel * energy * (0.56 + (centerWeight * 0.44))));
+                    barLevels[i] += (targetLevel - barLevels[i]) * (0.24 * dtScale);
+                }
+
+                render();
+            };
+
+            render();
+            return { setMode, frame };
+        };
+
+        const createShowcaseSpinnerController = (spinnerRoot) => {
+            const spokes = Array.from(spinnerRoot.querySelectorAll('span'));
+            const SPOKE_COUNT = 8;
+            const PERIOD_MS = 900;
+            const MIN_ALPHA = 0.26;
+            const MAX_ALPHA = 0.98;
+            const SPINNER_RGB = [219, 228, 239];
+            let active = false;
+            let startedAtMs = 0;
+
+            const setSpoke = (spoke, alpha) => {
+                const clamped = clamp01(alpha);
+                const glow = clamp01((clamped - MIN_ALPHA) / (MAX_ALPHA - MIN_ALPHA));
+                spoke.style.backgroundColor = `rgba(${SPINNER_RGB[0]}, ${SPINNER_RGB[1]}, ${SPINNER_RGB[2]}, ${clamped.toFixed(3)})`;
+                spoke.style.boxShadow = glow > 0.02
+                    ? `0 0 ${Math.round(6 + (glow * 3))}px rgba(${SPINNER_RGB[0]}, ${SPINNER_RGB[1]}, ${SPINNER_RGB[2]}, ${(0.10 + (glow * 0.24)).toFixed(3)})`
+                    : 'none';
+            };
+
+            const setActive = (enabled) => {
+                const nextActive = !!enabled;
+                if (nextActive === active) {
+                    return;
+                }
+                active = nextActive;
+                startedAtMs = nextActive ? performance.now() : 0;
+                if (!nextActive) {
+                    for (const spoke of spokes) {
+                        setSpoke(spoke, MIN_ALPHA * 0.9);
+                    }
+                }
+            };
+
+            const frame = (nowMs) => {
+                if (!active || startedAtMs <= 0 || !spokes.length) {
+                    return;
+                }
+                const progress = ((nowMs - startedAtMs) % PERIOD_MS) / PERIOD_MS;
+                const head = progress * SPOKE_COUNT;
+                for (let i = 0; i < spokes.length; i += 1) {
+                    const trailingDistance = (head - i + SPOKE_COUNT) % SPOKE_COUNT;
+                    const normalized = 1 - (trailingDistance / (SPOKE_COUNT - 1));
+                    const eased = normalized <= 0
+                        ? 0
+                        : (normalized * normalized * (3 - (2 * normalized)));
+                    const alpha = MIN_ALPHA + ((MAX_ALPHA - MIN_ALPHA) * eased);
+                    setSpoke(spokes[i], alpha);
+                }
+            };
+
+            setActive(false);
+            return { setActive, frame };
+        };
+
+        // ── App preview (scroll-driven) ──
+
+        const appPreviewRoot = document.getElementById('vn-app-preview');
+        if (appPreviewRoot) {
+            const appRecordingLabel = document.getElementById('vn-preview-recording-label');
+            const appSpinnerRoots = Array.from(appPreviewRoot.querySelectorAll('.vn-mic-spinner, .vn-fly-spinner'));
+            const appSpinnerControllers = appSpinnerRoots.map((root) => createShowcaseSpinnerController(root));
+            let appTimerId = null;
+            let appElapsedSeconds = 0;
+            let currentAppState = 'idle';
+
+            const stopAppTimer = () => {
+                if (appTimerId) {
+                    clearInterval(appTimerId);
+                    appTimerId = null;
+                }
+            };
+
+            const startAppTimer = () => {
+                stopAppTimer();
+                appElapsedSeconds = 0;
+                if (appRecordingLabel) {
+                    appRecordingLabel.textContent = formatShowcaseTime(appElapsedSeconds);
+                }
+                appTimerId = window.setInterval(() => {
+                    appElapsedSeconds += 1;
+                    if (appRecordingLabel) {
+                        appRecordingLabel.textContent = formatShowcaseTime(appElapsedSeconds);
                     }
                 }, 1000);
             };
 
-            const contextItems = document.querySelectorAll('.vn-context-item');
-            const demoAppBtn = document.getElementById('vn-demo-app-mode');
-            const demoFlyoutBtn = document.getElementById('vn-demo-flyout-mode');
+            const setAppState = (nextState) => {
+                const state = ['idle', 'listening', 'transcribing'].includes(nextState) ? nextState : 'idle';
+                if (state === currentAppState) return;
+                currentAppState = state;
+                appPreviewRoot.dataset.state = state;
+                activateShowcaseContext('app', state);
 
-            const setPreviewState = (nextState, nextContext = null) => {
-                const currentContext = nextContext || previewRoot.dataset.context || 'app';
-                const normalizedState = ['idle', 'listening', 'transcribing', 'settings'].includes(nextState) ? nextState : 'idle';
+                const spinnerActive = state === 'transcribing';
+                for (const ctrl of appSpinnerControllers) {
+                    ctrl.setActive(spinnerActive);
+                }
 
-                clearPreviewTranscribingTimeout();
-                previewRoot.dataset.state = normalizedState;
-                previewRoot.dataset.context = currentContext;
-                syncPreviewVisualAnimationState(normalizedState, currentContext);
+                if (state === 'listening') {
+                    startAppTimer();
+                    return;
+                }
 
-                // Robust Display Logic: Clear EVERYTHING first, then re-apply active state
-                // This prevents state overlap bugs
-                const allItems = Array.from(contextItems); // Static snapshot
+                stopAppTimer();
+                if (state === 'transcribing') {
+                    if (appRecordingLabel) {
+                        appRecordingLabel.textContent = 'Transcribing';
+                    }
+                    return;
+                }
 
-                allItems.forEach(item => {
-                    item.classList.remove('is-active');
-                    // Force a tiny style change to trigger reflow if needed, though class removal usually suffices
-                    item.style.display = 'none';
-                    item.offsetHeight; // Force reflow
-                    item.style.display = '';
+                if (appRecordingLabel) {
+                    appRecordingLabel.textContent = 'Tap to record';
+                }
+            };
+
+            const runAppSpinnerFrame = (nowMs) => {
+                for (const ctrl of appSpinnerControllers) {
+                    ctrl.frame(nowMs);
+                }
+                window.requestAnimationFrame(runAppSpinnerFrame);
+            };
+            window.requestAnimationFrame(runAppSpinnerFrame);
+
+            setAppState('idle');
+
+            // Expose for scrollytelling
+            window._vnSetAppState = setAppState;
+        }
+
+        // ── Flyout preview (scroll-driven) ──
+
+        const flyoutPreviewRoot = document.getElementById('vn-flyout-preview');
+        if (flyoutPreviewRoot) {
+            const flyoutTimer = document.getElementById('vn-preview-flyout-timer');
+            const flyoutWaveBars = Array.from(flyoutPreviewRoot.querySelectorAll('.vn-fly-wave-bar'));
+            const flyoutWaveformController = createShowcaseWaveformController(flyoutWaveBars);
+            const flyoutSpinnerRoots = Array.from(flyoutPreviewRoot.querySelectorAll('.vn-mic-spinner, .vn-fly-spinner'));
+            const flyoutSpinnerControllers = flyoutSpinnerRoots.map((root) => createShowcaseSpinnerController(root));
+            let flyoutTimerId = null;
+            let flyoutElapsedSeconds = 0;
+            let currentFlyoutState = 'idle';
+
+            const stopFlyoutTimer = () => {
+                if (flyoutTimerId) {
+                    clearInterval(flyoutTimerId);
+                    flyoutTimerId = null;
+                }
+            };
+
+            const startFlyoutTimer = () => {
+                stopFlyoutTimer();
+                flyoutElapsedSeconds = 0;
+                if (flyoutTimer) {
+                    flyoutTimer.textContent = formatShowcaseTime(flyoutElapsedSeconds);
+                }
+                flyoutTimerId = window.setInterval(() => {
+                    flyoutElapsedSeconds += 1;
+                    if (flyoutElapsedSeconds >= 600) {
+                        flyoutElapsedSeconds = 0;
+                    }
+                    if (flyoutTimer) {
+                        flyoutTimer.textContent = formatShowcaseTime(flyoutElapsedSeconds);
+                    }
+                }, 1000);
+            };
+
+            const setFlyoutState = (nextState) => {
+                const state = ['idle', 'listening', 'transcribing'].includes(nextState) ? nextState : 'idle';
+                if (state === currentFlyoutState) return;
+                currentFlyoutState = state;
+                flyoutPreviewRoot.dataset.state = state;
+                activateShowcaseContext('flyout', state);
+                flyoutWaveformController.setMode(state);
+
+                const spinnerActive = state === 'transcribing';
+                for (const ctrl of flyoutSpinnerControllers) {
+                    ctrl.setActive(spinnerActive);
+                }
+
+                if (state === 'listening') {
+                    startFlyoutTimer();
+                    return;
+                }
+
+                stopFlyoutTimer();
+                if (flyoutTimer) {
+                    flyoutTimer.textContent = '0:00';
+                }
+            };
+
+            const runFlyoutFrame = (nowMs) => {
+                flyoutWaveformController.frame(nowMs);
+                for (const ctrl of flyoutSpinnerControllers) {
+                    ctrl.frame(nowMs);
+                }
+                window.requestAnimationFrame(runFlyoutFrame);
+            };
+            window.requestAnimationFrame(runFlyoutFrame);
+
+            setFlyoutState('idle');
+
+            // Expose for scrollytelling
+            window._vnSetFlyoutState = setFlyoutState;
+        }
+
+        // ── Scrollytelling: drive state from scroll position ──
+
+        const scrollySections = Array.from(document.querySelectorAll('.vn-scrolly-section'));
+        if (scrollySections.length) {
+            const stateSetters = {
+                app: window._vnSetAppState || (() => { }),
+                flyout: window._vnSetFlyoutState || (() => { }),
+            };
+
+            const activeStateByTarget = { app: 'idle', flyout: 'idle' };
+
+            const updateScrollyState = (section) => {
+                const target = section.classList.contains('vn-scrolly-section--app') ? 'app' : 'flyout';
+                const steps = Array.from(section.querySelectorAll('.vn-scrolly-step'));
+                if (!steps.length) return;
+
+                const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+                const sectionRect = section.getBoundingClientRect();
+                if (sectionRect.bottom <= 0 || sectionRect.top >= viewportHeight) {
+                    return;
+                }
+
+                const focusY = viewportHeight * 0.5;
+                const tailPx = Number(section.dataset.scrollyTail || 0);
+                const effectiveHeight = Math.max(sectionRect.height - Math.max(tailPx, 0), 1);
+                const progress = (focusY - sectionRect.top) / effectiveHeight;
+                const clampedProgress = Math.max(0, Math.min(0.9999, progress));
+                const stepWeights = steps.map((step) => {
+                    const weight = Number(step.dataset.scrollyWeight);
+                    return Number.isFinite(weight) && weight > 0 ? weight : 1;
                 });
+                const totalWeight = stepWeights.reduce((sum, weight) => sum + weight, 0) || steps.length;
+                const weightedProgress = clampedProgress * totalWeight;
+                let cumulativeWeight = 0;
+                let stepIndex = steps.length - 1;
+                for (let i = 0; i < steps.length; i += 1) {
+                    cumulativeWeight += stepWeights[i];
+                    if (weightedProgress < cumulativeWeight) {
+                        stepIndex = i;
+                        break;
+                    }
+                }
+                const activeStep = steps[stepIndex];
+                if (!activeStep) return;
 
-                requestAnimationFrame(() => {
-                    allItems.forEach(item => {
-                        const itemContext = item.dataset.context;
-                        const itemState = item.dataset.state;
+                const state = activeStep.dataset.scrollyState;
+                if (state && state !== activeStateByTarget[target]) {
+                    activeStateByTarget[target] = state;
+                    stateSetters[target](state);
 
-                        let isActive = false;
+                    // Update context items
+                    const allItems = document.querySelectorAll(`.vn-context-item[data-target="${target}"]`);
+                    for (const item of allItems) {
+                        item.classList.remove('is-active');
+                    }
+                    const contextItem = section.querySelector(`.vn-context-item[data-target="${target}"][data-state="${state}"]`);
+                    if (contextItem) {
+                        contextItem.classList.add('is-active');
+                    }
+                }
+            };
 
-                        if (itemContext === currentContext) {
-                            if (itemState === normalizedState) {
-                                isActive = true;
-                            }
-                            // Special Case: Flyout doesn't have an explicit 'idle' UI state, so show 'listening' (intro)
-                            if (currentContext === 'flyout' && normalizedState === 'idle' && itemState === 'listening') {
-                                isActive = true;
-                            }
+            // Use scroll event with throttling
+            let ticking = false;
+            const onScroll = () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        for (const section of scrollySections) {
+                            updateScrollyState(section);
                         }
-
-                        if (isActive) {
-                            item.classList.add('is-active');
-                        }
+                        ticking = false;
                     });
-                });
-
-                // Update Demo Buttons
-                if (demoAppBtn && demoFlyoutBtn) {
-                    demoAppBtn.classList.toggle('is-active', currentContext === 'app');
-                    demoFlyoutBtn.classList.toggle('is-active', currentContext === 'flyout');
-                }
-
-                if (normalizedState === 'listening') {
-                    startPreviewClock();
-                    return;
-                }
-
-                stopPreviewClock();
-                if (normalizedState === 'transcribing') {
-                    if (previewRecordingLabel) {
-                        previewRecordingLabel.textContent = 'Transcribing';
-                    }
-                    if (previewFlyoutTimer) {
-                        previewFlyoutTimer.textContent = '0:00';
-                    }
-                    previewTranscribingTimeoutId = window.setTimeout(() => {
-                        if (currentContext === 'flyout') {
-                            setPreviewState('listening', 'flyout');
-                            return;
-                        }
-                        setPreviewState('idle', currentContext);
-                    }, 1500); // Slightly longer for reading
-                    return;
-                }
-
-                if (previewRecordingLabel) {
-                    previewRecordingLabel.textContent = 'Tap to record';
-                }
-                if (previewFlyoutTimer) {
-                    previewFlyoutTimer.textContent = '0:00';
+                    ticking = true;
                 }
             };
 
-            if (previewMicButton) {
-                previewMicButton.addEventListener('click', () => {
-                    const current = previewRoot.dataset.state || 'idle';
-                    // Mic button forces App context
-                    if (current === 'idle') {
-                        setPreviewState('listening', 'app');
-                    } else if (current === 'listening') {
-                        setPreviewState('transcribing', 'app');
-                    }
-                });
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+
+            // Initial update
+            for (const section of scrollySections) {
+                updateScrollyState(section);
             }
-
-            if (previewFlyoutFinish) {
-                previewFlyoutFinish.addEventListener('click', () => {
-                    setPreviewState('transcribing', 'flyout');
-                });
-            }
-
-            if (previewFlyoutDiscard) {
-                previewFlyoutDiscard.addEventListener('click', () => {
-                    // Do nothing - User override for demo purpose
-                    // setPreviewState('idle', 'flyout');
-                });
-            }
-
-            if (previewSettingsButton) {
-                previewSettingsButton.addEventListener('click', () => {
-                    const isOpen = !previewRoot.classList.contains('is-settings-open');
-                    setPreviewSettingsOpen(isOpen);
-                    if (isOpen) {
-                        setPreviewState('settings', 'app');
-                    } else {
-                        setPreviewState('idle', 'app');
-                    }
-                });
-            }
-            if (previewSettingsClose) {
-                previewSettingsClose.addEventListener('click', () => {
-                    setPreviewSettingsOpen(false);
-                    setPreviewState('idle', 'app');
-                });
-            }
-            if (previewSettingsOverlay) {
-                previewSettingsOverlay.addEventListener('click', () => {
-                    setPreviewSettingsOpen(false);
-                    setPreviewState('idle', 'app');
-                });
-            }
-
-            // Demo Mode Toggles
-            if (demoAppBtn) {
-                demoAppBtn.addEventListener('click', () => {
-                    setPreviewState('idle', 'app');
-                });
-            }
-            if (demoFlyoutBtn) {
-                demoFlyoutBtn.addEventListener('click', () => {
-                    // Start flyout in listening mode immediately to simulate hotkey
-                    setPreviewState('listening', 'flyout');
-                });
-            }
-
-            setupPreviewCombo({
-                comboId: 'vn-setting-language-combo',
-                buttonId: 'vn-setting-language-button',
-                valueId: 'vn-setting-language-value',
-                menuId: 'vn-setting-language-menu',
-            });
-            setupPreviewCombo({
-                comboId: 'vn-setting-model-combo',
-                buttonId: 'vn-setting-model-button',
-                valueId: 'vn-setting-model-value',
-                menuId: 'vn-setting-model-menu',
-            });
-            setupPreviewCombo({
-                comboId: 'vn-setting-close-action-combo',
-                buttonId: 'vn-setting-close-action-button',
-                valueId: 'vn-setting-close-action-value',
-                menuId: 'vn-setting-close-action-menu',
-            });
-
-            document.addEventListener('click', (event) => {
-                if (!(event.target instanceof Element)) {
-                    return;
-                }
-                const insideCombo = event.target.closest('.vn-setting-combo');
-                if (!insideCombo) {
-                    closeAllPreviewCombos();
-                }
-            });
-
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    closeAllPreviewCombos();
-                }
-            });
-
-            const runPreviewMotionFrame = (nowMs) => {
-                previewWaveformController.frame(nowMs);
-                for (const controller of previewSpinnerControllers) {
-                    controller.frame(nowMs);
-                }
-                window.requestAnimationFrame(runPreviewMotionFrame);
-            };
-            window.requestAnimationFrame(runPreviewMotionFrame);
-
-            setPreviewState('idle', 'app');
         }
     </script>
 </body>
