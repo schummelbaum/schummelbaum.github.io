@@ -1078,11 +1078,13 @@
         /* App section: sticky app preview on the left, text on the right */
         .vn-scrolly-section--app .vn-scrolly-sticky {
             grid-column: 1;
+            grid-row: 1;
             justify-self: end;
         }
 
         .vn-scrolly-section--app .vn-scrolly-steps {
             grid-column: 2;
+            grid-row: 1;
             justify-self: start;
         }
 
@@ -1141,6 +1143,82 @@
             flex-direction: column;
             align-items: center;
             gap: 24px;
+        }
+
+        .vn-scrolly-divider {
+            --vn-divider-visible: 0;
+            --vn-divider-fill-pct: 0%;
+            --vn-divider-icon-top: 15%;
+            --vn-divider-track-top: 15%;
+            --vn-divider-track-height: 70%;
+            position: sticky;
+            grid-column: 1 / -1;
+            grid-row: 1;
+            justify-self: center;
+            align-self: start;
+            top: var(--vn-scrolly-top);
+            height: var(--vn-scrolly-slot-height);
+            width: 1px;
+            background: transparent;
+            pointer-events: none;
+            z-index: 3;
+            opacity: var(--vn-divider-visible);
+            transition: opacity 0.16s linear;
+        }
+
+        .vn-scrolly-divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: var(--vn-divider-track-top);
+            width: 100%;
+            height: var(--vn-divider-track-height);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .vn-scrolly-divider::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: var(--vn-divider-track-top);
+            width: 100%;
+            height: var(--vn-divider-fill-pct);
+            background: rgba(255, 255, 255, 0.84);
+        }
+
+        .vn-scrolly-divider-icon {
+            position: absolute;
+            top: var(--vn-divider-icon-top);
+            left: 0;
+            width: 1px;
+            display: flex;
+            justify-content: center;
+            font-size: 15px;
+            line-height: 1;
+            color: rgba(255, 255, 255, 0.88);
+            transform: translateY(-50%);
+            animation: vn-scroll-divider-float 1.8s ease-in-out infinite;
+        }
+
+        .vn-scrolly-divider-stage-mark {
+            position: absolute;
+            top: var(--vn-divider-mark-top);
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.32);
+            transform: translate(-50%, -50%);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .vn-scrolly-divider-stage-mark.is-passed {
+            background: rgba(255, 255, 255, 0.58);
+        }
+
+        .vn-scrolly-divider-stage-mark.is-next {
+            background: rgba(255, 255, 255, 0.94);
+            transform: translate(-50%, -50%) scale(1.16);
         }
 
         /* Text column with individual scroll steps */
@@ -1210,6 +1288,19 @@
             width: min(100%, 360px);
             align-items: center;
             min-height: 180px;
+        }
+
+        @keyframes vn-scroll-divider-float {
+            0%,
+            100% {
+                transform: translateY(-57%);
+                opacity: 0.75;
+            }
+
+            50% {
+                transform: translateY(-43%);
+                opacity: 0.96;
+            }
         }
 
         /* ── Flyout idle state: hide only the pill (no flyout until hotkey); keep background + taskbar icons ── */
@@ -1496,6 +1587,10 @@
                 max-width: 280px;
                 margin-left: auto;
                 margin-right: auto;
+            }
+
+            .vn-scrolly-divider {
+                display: none;
             }
         }
 
@@ -1801,6 +1896,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="vn-scrolly-divider" aria-hidden="true">
+                            <span class="material-symbols-outlined vn-scrolly-divider-icon">mouse</span>
+                        </div>
 
                         <!-- Scrollable steps (right) -->
                         <div class="vn-scrolly-steps">
@@ -1898,6 +1996,9 @@
                                 </div>
                             </div>
                             </div>
+                        </div>
+                        <div class="vn-scrolly-divider" aria-hidden="true">
+                            <span class="material-symbols-outlined vn-scrolly-divider-icon">mouse</span>
                         </div>
 
                         <!-- Scrollable steps (left) -->
@@ -2595,15 +2696,79 @@
             };
 
             const activeStateByTarget = { app: 'idle', flyout: 'idle' };
+            const dividerTrackTopPct = 15;
+            const dividerTrackSpanPct = 70;
+            const dividerMarkersBySection = new WeakMap();
+
+            const setupScrollyDividerMarkers = (section, target, steps) => {
+                if (dividerMarkersBySection.has(section)) {
+                    return;
+                }
+                const divider = section.querySelector('.vn-scrolly-divider');
+                if (!divider || steps.length < 2) {
+                    dividerMarkersBySection.set(section, []);
+                    return;
+                }
+
+                const stepWeights = steps.map((step) => {
+                    const weight = Number(step.dataset.scrollyWeight);
+                    return Number.isFinite(weight) && weight > 0 ? weight : 1;
+                });
+                const totalWeight = stepWeights.reduce((sum, weight) => sum + weight, 0) || steps.length;
+                let cumulativeWeight = 0;
+                const markers = [];
+                for (let i = 0; i < steps.length - 1; i += 1) {
+                    cumulativeWeight += stepWeights[i];
+                    const ratio = clamp01(cumulativeWeight / totalWeight);
+                    const marker = document.createElement('span');
+                    marker.className = 'vn-scrolly-divider-stage-mark';
+                    const topPct = dividerTrackTopPct + (ratio * dividerTrackSpanPct);
+                    marker.style.setProperty('--vn-divider-mark-top', `${topPct.toFixed(2)}%`);
+                    divider.appendChild(marker);
+                    markers.push({ element: marker, ratio });
+                }
+                dividerMarkersBySection.set(section, markers);
+            };
+
+            const setScrollyDividerProgress = (section, progress, isVisible) => {
+                const divider = section.querySelector('.vn-scrolly-divider');
+                if (!divider) {
+                    return;
+                }
+                const clamped = clamp01(progress);
+                const fillPct = (clamped * dividerTrackSpanPct).toFixed(2);
+                const iconTopPct = (dividerTrackTopPct + (clamped * dividerTrackSpanPct)).toFixed(2);
+                divider.style.setProperty('--vn-divider-fill-pct', `${fillPct}%`);
+                divider.style.setProperty('--vn-divider-icon-top', `${iconTopPct}%`);
+                divider.style.setProperty('--vn-divider-visible', isVisible ? '1' : '0');
+
+                const markers = dividerMarkersBySection.get(section) || [];
+                let nextMarkerSet = false;
+                for (const markerInfo of markers) {
+                    const isPassed = clamped >= markerInfo.ratio;
+                    markerInfo.element.classList.toggle('is-passed', isPassed);
+                    const isNext = !isPassed && !nextMarkerSet;
+                    markerInfo.element.classList.toggle('is-next', isNext);
+                    if (isNext) {
+                        nextMarkerSet = true;
+                    }
+                }
+            };
 
             const updateScrollyState = (section) => {
                 const target = section.classList.contains('vn-scrolly-section--app') ? 'app' : 'flyout';
                 const steps = Array.from(section.querySelectorAll('.vn-scrolly-step'));
                 if (!steps.length) return;
+                setupScrollyDividerMarkers(section, target, steps);
 
                 const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
                 const sectionRect = section.getBoundingClientRect();
-                if (sectionRect.bottom <= 0 || sectionRect.top >= viewportHeight) {
+                if (sectionRect.bottom <= 0) {
+                    setScrollyDividerProgress(section, 1, false);
+                    return;
+                }
+                if (sectionRect.top >= viewportHeight) {
+                    setScrollyDividerProgress(section, 0, false);
                     return;
                 }
 
@@ -2612,6 +2777,7 @@
                 const effectiveHeight = Math.max(sectionRect.height - Math.max(tailPx, 0), 1);
                 const progress = (focusY - sectionRect.top) / effectiveHeight;
                 const clampedProgress = Math.max(0, Math.min(0.9999, progress));
+                setScrollyDividerProgress(section, clampedProgress, true);
                 const stepWeights = steps.map((step) => {
                     const weight = Number(step.dataset.scrollyWeight);
                     return Number.isFinite(weight) && weight > 0 ? weight : 1;
