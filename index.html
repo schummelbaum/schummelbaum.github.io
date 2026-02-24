@@ -1169,9 +1169,9 @@
         .vn-scrolly-divider::before {
             content: '';
             position: absolute;
-            left: 0;
+            left: -1px;
             top: var(--vn-divider-track-top);
-            width: 100%;
+            width: 2px;
             height: var(--vn-divider-track-height);
             background: rgba(255, 255, 255, 0.2);
         }
@@ -1179,9 +1179,9 @@
         .vn-scrolly-divider::after {
             content: '';
             position: absolute;
-            left: 0;
+            left: -1px;
             top: var(--vn-divider-track-top);
-            width: 100%;
+            width: 2px;
             height: var(--vn-divider-fill-pct);
             background: rgba(255, 255, 255, 0.84);
         }
@@ -1193,11 +1193,11 @@
             width: 1px;
             display: flex;
             justify-content: center;
-            font-size: 15px;
+            font-size: 22px;
             line-height: 1;
-            color: rgba(255, 255, 255, 0.88);
+            font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+            color: rgba(255, 255, 255, 1);
             transform: translateY(-50%);
-            animation: vn-scroll-divider-float 1.8s ease-in-out infinite;
         }
 
         .vn-scrolly-divider-stage-mark {
@@ -1288,19 +1288,6 @@
             width: min(100%, 360px);
             align-items: center;
             min-height: 180px;
-        }
-
-        @keyframes vn-scroll-divider-float {
-            0%,
-            100% {
-                transform: translateY(-57%);
-                opacity: 0.75;
-            }
-
-            50% {
-                transform: translateY(-43%);
-                opacity: 0.96;
-            }
         }
 
         /* ── Flyout idle state: hide only the pill (no flyout until hotkey); keep background + taskbar icons ── */
@@ -1397,7 +1384,7 @@
         .vn-context-item {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
             opacity: 0.22;
             pointer-events: none;
             transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -1426,7 +1413,7 @@
             display: block;
             width: 100%;
             height: 2px;
-            background: linear-gradient(to right, #EF4444, transparent);
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0) 0%, rgba(239, 68, 68, 1) 50%, rgba(239, 68, 68, 0) 100%);
             margin-top: 10px;
             border-radius: 2px;
             opacity: 0;
@@ -1434,16 +1421,11 @@
         }
 
         .vn-scrolly-step .vn-context-item.is-active .vn-context-title::after {
-            opacity: 0.8;
+            opacity: 1;
         }
 
         .dark .vn-context-title::after {
-            background: linear-gradient(to right, #EF4444, transparent);
-        }
-
-        /* Flyout section: text on left, visual on right - underline fades left */
-        .vn-scrolly-section--flyout .vn-context-title::after {
-            background: linear-gradient(to left, #EF4444, transparent);
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0) 0%, rgba(239, 68, 68, 1) 50%, rgba(239, 68, 68, 0) 100%);
         }
 
         /* Flyout section: right-align text to connect visually with flyout on the right */
@@ -1511,61 +1493,74 @@
 
         @media (max-width: 768px) {
             .vn-scrolly-section {
-                display: flex;
-                flex-direction: column !important;
-                align-items: center;
-                gap: 32px;
-                min-height: auto;
+                --vn-scrolly-top: clamp(68px, 10svh, 88px);
+                --vn-mobile-slot-height: clamp(176px, 30svh, 224px);
+                --vn-mobile-text-height: clamp(170px, 24svh, 220px);
+                --vn-mobile-phase-height: clamp(210px, 33svh, 290px);
+                --vn-mobile-gap: clamp(8px, 1.6svh, 14px);
+                display: block;
+                width: 100%;
+                max-width: 420px;
+                min-height: calc((var(--vn-mobile-phase-height) * var(--vn-scrolly-step-count)) + var(--vn-scrolly-top) + var(--vn-mobile-slot-height) + var(--vn-mobile-gap) + var(--vn-mobile-text-height) + 32px);
                 padding-top: 40px;
                 padding-bottom: 40px;
             }
 
+            .vn-scrolly-section--app {
+                --vn-mobile-slot-height: 526px;
+                --vn-mobile-text-height: clamp(236px, 35svh, 300px);
+                --vn-mobile-phase-height: clamp(250px, 39svh, 330px);
+            }
+
             .vn-scrolly-sticky {
-                position: relative;
-                top: auto;
+                width: 100%;
+                position: sticky;
+                top: var(--vn-scrolly-top);
                 height: auto;
+                min-height: calc(var(--vn-mobile-slot-height) + var(--vn-mobile-gap) + var(--vn-mobile-text-height));
                 transform: none;
+                margin-bottom: var(--vn-mobile-gap);
+                z-index: 4;
+                align-items: flex-start;
+                justify-content: center;
             }
 
             .vn-scrolly-steps {
-                width: 100%;
-                position: relative;
-                height: auto;
-                top: auto;
+                width: min(100%, 380px);
+                margin-inline: auto;
+                margin-top: calc(-1 * var(--vn-mobile-text-height));
+                position: sticky;
+                top: calc(var(--vn-scrolly-top) + var(--vn-mobile-slot-height) + var(--vn-mobile-gap));
+                height: var(--vn-mobile-text-height);
                 transform: none;
-                gap: 32px;
+                z-index: 2;
             }
 
             .vn-scrolly-step {
-                position: relative;
-                inset: auto;
-                top: auto;
+                position: absolute;
+                inset: 0;
                 transform: none;
-                margin-bottom: 0;
-                min-height: auto;
+                margin: 0;
+                min-height: 0;
+                display: flex;
+                align-items: stretch;
             }
 
             .vn-scrolly-step .vn-context-panel {
                 position: relative;
                 inset: auto;
                 width: min(100%, 380px);
-                margin-inline: 0;
-                height: auto;
-                min-height: auto;
+                margin-inline: auto;
+                height: 100%;
+                min-height: 0;
                 pointer-events: auto;
-            }
-
-            .vn-scrolly-step:last-child {
-                margin-bottom: 0;
-            }
-
-            .vn-scrolly-step .vn-context-item {
-                opacity: 1;
+                justify-content: center;
+                align-items: center;
             }
 
             .vn-scrolly-step .vn-context-item:not(.is-active) .vn-context-text {
-                opacity: 0.5;
-                max-height: 100px;
+                opacity: 0;
+                max-height: 0;
             }
 
             .vn-context-panel {
@@ -1579,6 +1574,36 @@
                 align-items: center;
             }
 
+            .vn-scrolly-section--app .vn-scrolly-sticky,
+            .vn-scrolly-section--flyout .vn-scrolly-sticky {
+                grid-column: auto;
+                grid-row: auto;
+                justify-self: center;
+                z-index: 4;
+            }
+
+            .vn-scrolly-section--app .vn-scrolly-steps,
+            .vn-scrolly-section--flyout .vn-scrolly-steps {
+                grid-column: auto;
+                grid-row: auto;
+                justify-self: center;
+                width: min(100%, 380px);
+                position: sticky;
+                top: calc(var(--vn-scrolly-top) + var(--vn-mobile-slot-height) + var(--vn-mobile-gap));
+                height: var(--vn-mobile-text-height);
+            }
+
+            .vn-scrolly-section--flyout .vn-scrolly-step .vn-context-panel {
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: clamp(2px, 0.8svh, 8px);
+            }
+
+            .vn-scrolly-section--app .vn-scrolly-step .vn-context-panel {
+                justify-content: flex-start;
+                padding-top: clamp(4px, 1.1svh, 10px);
+            }
+
             .vn-context-tag {
                 margin-inline: auto;
             }
@@ -1587,6 +1612,11 @@
                 max-width: 280px;
                 margin-left: auto;
                 margin-right: auto;
+            }
+
+            .vn-app-window {
+                width: min(100%, 292px);
+                height: 510px;
             }
 
             .vn-scrolly-divider {
@@ -1600,7 +1630,28 @@
             }
 
             .vn-context-title {
-                font-size: 40px;
+                font-size: clamp(34px, 10vw, 40px);
+            }
+
+            .vn-app-window {
+                width: min(100%, 268px);
+                height: 468px;
+            }
+
+            .vn-scrolly-section {
+                --vn-mobile-gap: clamp(6px, 1.3svh, 10px);
+            }
+
+            .vn-scrolly-section--app {
+                --vn-mobile-slot-height: 486px;
+                --vn-mobile-text-height: clamp(220px, 36svh, 276px);
+                --vn-mobile-phase-height: clamp(232px, 38svh, 300px);
+            }
+
+            .vn-scrolly-section--flyout {
+                --vn-mobile-slot-height: clamp(164px, 29svh, 206px);
+                --vn-mobile-text-height: clamp(162px, 27svh, 208px);
+                --vn-mobile-phase-height: clamp(196px, 32svh, 270px);
             }
         }
 
@@ -1897,7 +1948,7 @@
                             </div>
                         </div>
                         <div class="vn-scrolly-divider" aria-hidden="true">
-                            <span class="material-symbols-outlined vn-scrolly-divider-icon">mouse</span>
+                            <span class="material-symbols-outlined vn-scrolly-divider-icon">expand_more</span>
                         </div>
 
                         <!-- Scrollable steps (right) -->
@@ -1916,10 +1967,6 @@
                             <div class="vn-scrolly-step" data-scrolly-target="app" data-scrolly-state="listening" data-scrolly-weight="5">
                                 <aside class="vn-context-panel">
                                     <div class="vn-context-item" data-target="app" data-state="listening">
-                                        <span class="vn-context-tag">
-                                            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                                            Listening
-                                        </span>
                                         <h3 class="vn-context-title text-primary">Go Ahead, Speak Naturally</h3>
                                         <p class="vn-context-text">VoiceNote captures your words in real time so you can draft complete notes or emails without typing.</p>
                                     </div>
@@ -1930,11 +1977,6 @@
                             <div class="vn-scrolly-step" data-scrolly-target="app" data-scrolly-state="transcribing" data-scrolly-weight="5">
                                 <aside class="vn-context-panel">
                                     <div class="vn-context-item" data-target="app" data-state="transcribing">
-                                        <span class="vn-context-tag">
-                                            <span
-                                                class="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
-                                            Processing
-                                        </span>
                                         <h3 class="vn-context-title">Turning Speech into Text</h3>
                                         <p class="vn-context-text">Our local AI models transcribe your recording quickly and accurately, ready to paste.</p>
                                     </div>
@@ -1998,7 +2040,7 @@
                             </div>
                         </div>
                         <div class="vn-scrolly-divider" aria-hidden="true">
-                            <span class="material-symbols-outlined vn-scrolly-divider-icon">mouse</span>
+                            <span class="material-symbols-outlined vn-scrolly-divider-icon">expand_more</span>
                         </div>
 
                         <!-- Scrollable steps (left) -->
@@ -2007,7 +2049,6 @@
                             <div class="vn-scrolly-step" data-scrolly-target="flyout" data-scrolly-state="idle" data-scrolly-weight="5">
                                 <aside class="vn-context-panel">
                                     <div class="vn-context-item is-active" data-target="flyout" data-state="idle">
-                                        <span class="vn-context-tag">Example Hotkey: Ctrl + Space</span>
                                         <h3 class="vn-context-title">Quick Capture Anywhere</h3>
                                         <p class="vn-context-text">Press a global hotkey to summon VoiceNote's flyout over any window, ready for instant dictation.</p>
                                     </div>
@@ -2018,10 +2059,6 @@
                             <div class="vn-scrolly-step" data-scrolly-target="flyout" data-scrolly-state="listening" data-scrolly-weight="5">
                                 <aside class="vn-context-panel">
                                     <div class="vn-context-item" data-target="flyout" data-state="listening">
-                                        <span class="vn-context-tag">
-                                            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                                            Recording
-                                        </span>
                                         <h3 class="vn-context-title">Speak Your Mind</h3>
                                         <p class="vn-context-text">The flyout records your voice with a live waveform and timer, without breaking your focus.</p>
                                     </div>
@@ -2694,6 +2731,7 @@
                 app: window._vnSetAppState || (() => { }),
                 flyout: window._vnSetFlyoutState || (() => { }),
             };
+            const scrollyMobileMq = window.matchMedia('(max-width: 768px)');
 
             const activeStateByTarget = { app: 'idle', flyout: 'idle' };
             const dividerTrackTopPct = 15;
@@ -2759,6 +2797,7 @@
                 const target = section.classList.contains('vn-scrolly-section--app') ? 'app' : 'flyout';
                 const steps = Array.from(section.querySelectorAll('.vn-scrolly-step'));
                 if (!steps.length) return;
+                const isMobileScrolly = scrollyMobileMq.matches;
                 setupScrollyDividerMarkers(section, target, steps);
 
                 const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
@@ -2772,25 +2811,48 @@
                     return;
                 }
 
-                const focusY = viewportHeight * 0.5;
-                const tailPx = Number(section.dataset.scrollyTail || 0);
-                const effectiveHeight = Math.max(sectionRect.height - Math.max(tailPx, 0), 1);
-                const progress = (focusY - sectionRect.top) / effectiveHeight;
-                const clampedProgress = Math.max(0, Math.min(0.9999, progress));
-                setScrollyDividerProgress(section, clampedProgress, true);
-                const stepWeights = steps.map((step) => {
-                    const weight = Number(step.dataset.scrollyWeight);
-                    return Number.isFinite(weight) && weight > 0 ? weight : 1;
-                });
-                const totalWeight = stepWeights.reduce((sum, weight) => sum + weight, 0) || steps.length;
-                const weightedProgress = clampedProgress * totalWeight;
-                let cumulativeWeight = 0;
                 let stepIndex = steps.length - 1;
-                for (let i = 0; i < steps.length; i += 1) {
-                    cumulativeWeight += stepWeights[i];
-                    if (weightedProgress < cumulativeWeight) {
-                        stepIndex = i;
-                        break;
+                if (isMobileScrolly) {
+                    setScrollyDividerProgress(section, 0, false);
+                    const focusY = viewportHeight * 0.62;
+                    const tailPx = Number(section.dataset.scrollyTail || 0);
+                    const effectiveHeight = Math.max(sectionRect.height - Math.max(tailPx, 0), 1);
+                    const progress = (focusY - sectionRect.top) / effectiveHeight;
+                    const clampedProgress = Math.max(0, Math.min(0.9999, progress));
+                    const stepWeights = steps.map((step) => {
+                        const weight = Number(step.dataset.scrollyWeight);
+                        return Number.isFinite(weight) && weight > 0 ? weight : 1;
+                    });
+                    const totalWeight = stepWeights.reduce((sum, weight) => sum + weight, 0) || steps.length;
+                    const weightedProgress = clampedProgress * totalWeight;
+                    let cumulativeWeight = 0;
+                    for (let i = 0; i < steps.length; i += 1) {
+                        cumulativeWeight += stepWeights[i];
+                        if (weightedProgress < cumulativeWeight) {
+                            stepIndex = i;
+                            break;
+                        }
+                    }
+                } else {
+                    const focusY = viewportHeight * 0.5;
+                    const tailPx = Number(section.dataset.scrollyTail || 0);
+                    const effectiveHeight = Math.max(sectionRect.height - Math.max(tailPx, 0), 1);
+                    const progress = (focusY - sectionRect.top) / effectiveHeight;
+                    const clampedProgress = Math.max(0, Math.min(0.9999, progress));
+                    setScrollyDividerProgress(section, clampedProgress, true);
+                    const stepWeights = steps.map((step) => {
+                        const weight = Number(step.dataset.scrollyWeight);
+                        return Number.isFinite(weight) && weight > 0 ? weight : 1;
+                    });
+                    const totalWeight = stepWeights.reduce((sum, weight) => sum + weight, 0) || steps.length;
+                    const weightedProgress = clampedProgress * totalWeight;
+                    let cumulativeWeight = 0;
+                    for (let i = 0; i < steps.length; i += 1) {
+                        cumulativeWeight += stepWeights[i];
+                        if (weightedProgress < cumulativeWeight) {
+                            stepIndex = i;
+                            break;
+                        }
                     }
                 }
                 const activeStep = steps[stepIndex];
